@@ -35,3 +35,6 @@ HEADERS += \
 FORMS += \
         mainwindow.ui \
     serialconfig.ui
+
+RESOURCES += \
+    resources.qrc

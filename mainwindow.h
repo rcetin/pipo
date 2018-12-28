@@ -17,11 +17,18 @@ public:
     ~MainWindow();
 
 private slots:
+
     void on_actionSerial_Port_triggered();
+
+    void on_actionQuit_triggered();
+
+    void on_actionStart_triggered();
 
 private:
     Ui::MainWindow *ui;
     serialConfig *serialConf;
+
+    void resizeEvent(QResizeEvent* event);
 };
 
 #endif // MAINWINDOW_H

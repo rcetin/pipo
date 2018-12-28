@@ -6,20 +6,41 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>640</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Serial-Port-App</string>
+   <string>Pipo</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/rec/img/pipo_icon.png</normaloff>:/rec/img/pipo_icon.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>10</y>
+      <width>431</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>640</width>
      <height>20</height>
     </rect>
    </property>
@@ -40,14 +61,15 @@
      <rect>
       <x>416</x>
       <y>132</y>
-      <width>148</width>
-      <height>69</height>
+      <width>189</width>
+      <height>92</height>
      </rect>
     </property>
     <property name="title">
      <string>&amp;New</string>
     </property>
     <addaction name="actionSerial_Port"/>
+    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuNew"/>
   </widget>
@@ -58,15 +80,60 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionSerial_Port"/>
+   <addaction name="actionStart"/>
+   <addaction name="actionStop"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSerial_Port">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/rec/img/new_project.png</normaloff>:/rec/img/new_project.png</iconset>
+   </property>
    <property name="text">
-    <string>&amp;Serial Port</string>
+    <string>New Serial Port</string>
+   </property>
+   <property name="toolTip">
+    <string>Configure New Serial Port</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/rec/img/quit.png</normaloff>:/rec/img/quit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionStart">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/rec/img/play_but.svg</normaloff>:/rec/img/play_but.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Start</string>
+   </property>
+   <property name="toolTip">
+    <string>Start</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/rec/img/stop_but.png</normaloff>:/rec/img/stop_but.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop</string>
+   </property>
+   <property name="toolTip">
+    <string>Stop</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
