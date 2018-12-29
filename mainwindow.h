@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "serialconfig.h"
 
+#define TEXT_BROWSER_MARGIN_IN_PX 20
+
 namespace Ui {
 class MainWindow;
 }
@@ -27,6 +29,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     serialConfig *serialConf;
+    int topLeftTxtBrowser_x;
+    int topLeftTxtBrowser_y;
 
     void resizeEvent(QResizeEvent* event);
 };

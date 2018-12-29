@@ -21,10 +21,10 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>10</y>
-      <width>431</width>
-      <height>361</height>
+      <x>350</x>
+      <y>20</y>
+      <width>261</width>
+      <height>371</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -91,7 +91,7 @@
      <normaloff>:/rec/img/new_project.png</normaloff>:/rec/img/new_project.png</iconset>
    </property>
    <property name="text">
-    <string>New Serial Port</string>
+    <string>&amp;New Serial Port</string>
    </property>
    <property name="toolTip">
     <string>Configure New Serial Port</string>
@@ -103,7 +103,7 @@
      <normaloff>:/rec/img/quit.png</normaloff>:/rec/img/quit.png</iconset>
    </property>
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
   <action name="actionStart">

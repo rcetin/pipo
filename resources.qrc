@@ -3,7 +3,7 @@
         <file>img/play_but.svg</file>
         <file>img/stop_but.png</file>
         <file>img/new_project.png</file>
-        <file>img/quit.png</file>
         <file>img/pipo_icon.png</file>
+        <file>img/quit.png</file>
     </qresource>
 </RCC>
