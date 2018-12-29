@@ -26,15 +26,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    serialconfig.cpp
+    serialconfig.cpp \
+    addsequence.cpp \
+    startsequence.cpp
 
 HEADERS += \
         mainwindow.h \
-    serialconfig.h
+    serialconfig.h \
+    addsequence.h \
+    startsequence.h
 
 FORMS += \
         mainwindow.ui \
-    serialconfig.ui
+    serialconfig.ui \
+    addsequence.ui
 
 RESOURCES += \
     resources.qrc

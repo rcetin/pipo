@@ -9,9 +9,9 @@ serialConfig::serialConfig(QWidget *parent) :
     ui->setupUi(this);
 
     // CSS for serialPortConfig GroupBox
-    qApp->setStyleSheet("QGroupBox {  border: 1px solid gray; "
-                        "border-radius: 5px;"
-                        "background: white;}");
+    ui->groupBox->setStyleSheet("QGroupBox {  border: 1px solid gray; "
+                                "border-radius: 5px;"
+                                "background: white;}");
 
     ui->speed_list->addItem("300");
     ui->speed_list->addItem("1200");
