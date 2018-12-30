@@ -7,6 +7,8 @@
 #include <QToolButton>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QScrollArea>
+#include <QSizePolicy>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,9 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(&newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
-    qDebug() << "he: " << this->size().height();
-    qDebug() << "wid: " << this->size().width();
 
+    ui->pushButton->setToolTip("Add New Serial Sequence");
     int tempCorner;
     ui->textBrowser->geometry().getCoords(&this->topLeftTxtBrowser_x, &this->topLeftTxtBrowser_y, &tempCorner, &tempCorner);
     QFont serifFont("Times", 12);
@@ -49,6 +50,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
    ui->textBrowser->setFixedHeight(this->size().height() - this->topLeftTxtBrowser_y - (TEXT_BROWSER_MARGIN_IN_PX + 2) - 59);
    ui->textBrowser->setFixedWidth(this->size().width() - this->topLeftTxtBrowser_x - TEXT_BROWSER_MARGIN_IN_PX);
 
+   ui->scrollArea->setFixedHeight(this->size().height() - 140);
 }
 
 void MainWindow::on_actionSerial_Port_triggered()
@@ -70,12 +72,9 @@ void MainWindow::on_actionStart_triggered()
 
 void MainWindow::addSerialSequence(const QString & seqName, const QString &seqData)
 {
-    //QHBoxLayout *hor = new QHBoxLayout();
-    //hor->addSpacing(10);
     QPushButton *stBut = new QPushButton();
     stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
-    stBut->setFixedSize(QSize(40, 20));
-    //hor->addWidget(stBut);
+    stBut->setFixedSize(QSize(30, 20));
     ui->gridLayout->addWidget(stBut, this->gridLayLastRow, 0);
 
     QLineEdit *sqName = new QLineEdit;
@@ -84,8 +83,6 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
     sqName->setToolTip(n);
 
     sqName->setReadOnly(1);
-    //QLabel *sqName = new QLabel(seqName);
-    //hor->addWidget(sqName);
     ui->gridLayout->addWidget(sqName, this->gridLayLastRow, 1);
 
     QLineEdit *sqData = new QLineEdit;
@@ -93,15 +90,11 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
     QString str = QString("Data: %1").arg(seqData);
     sqData->setToolTip(str);
     sqData->setReadOnly(1);
-    //hor->addWidget(sqData);
-
     ui->gridLayout->addWidget(sqData, this->gridLayLastRow, 2);
-    //ui->gridLayout->addLayout(hor, this->gridLayLastRow, 0);
+
+    qDebug() << "Parent of grid: " << ui->gridLayout->parentWidget();
     this->gridLayLastRow++;
 
-    //ui->listWidget->addItem(str);
-    //QListWidgetItem *item = ui->listWidget->currentItem();
-    //item->setBackgroundColor("red");
     qDebug() << "seqName: " << seqName << "seqData: " << seqData;
 }
 
