@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <QScrollArea>
 #include <QSizePolicy>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -68,6 +69,10 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_actionStart_triggered()
 {
     ui->textBrowser->insertPlainText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fringilla justo ipsum, in finibus est dignissim ut. Pellentesque at est a ipsum luctus finibus vitae at dolor. Maecenas lobortis leo nec urna sollicitudin, sed pulvinar ex dictum. Morbi metus sapien, cursus sed tincidunt non, molestie vel magna. Donec efficitur dui odio, sollicitudin pellentesque nisl rhoncus nec. Morbi in orci ut ligula viverra iaculis ut in velit. Nullam tempus nisi non tincidunt mattis. Curabitur urna tortor, facilisis ut accumsan fermentum, facilisis ut ante. Sed condimentum egestas metus, commodo semper massa. Suspendisse laoreet erat ut ante pellentesque, sit amet pellentesque diam ultricies. Nam sed nisi nibh. Aenean ornare nunc condimentum molestie vestibulum. Integer et blandit nulla. Etiam tempus nulla ipsum, nec pretium odio pharetra interdum. \n");
+
+    // Set scroll bar to bottom
+    QScrollBar *sb = ui->textBrowser->verticalScrollBar();
+    sb->setValue(sb->maximum());
 }
 
 void MainWindow::addSerialSequence(const QString & seqName, const QString &seqData)
