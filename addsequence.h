@@ -13,6 +13,7 @@ class addSequence : public QDialog
 
 public:
     explicit addSequence(QWidget *parent = 0);
+    void reject();
     ~addSequence();
 
 private slots:
@@ -24,6 +25,8 @@ signals:
 
 private:
     Ui::addSequence *ui;
+
+    int serSeqParamErr = 0;
 };
 
 #endif // ADDSEQUENCE_H

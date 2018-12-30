@@ -22,6 +22,9 @@
      <height>32</height>
     </rect>
    </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
