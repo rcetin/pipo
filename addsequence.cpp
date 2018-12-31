@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QDebug>
 
 addSequence::addSequence(QWidget *parent) :
     QDialog(parent),

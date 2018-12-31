@@ -2,6 +2,7 @@
 #define ADDSEQUENCE_H
 
 #include <QDialog>
+#include <QLinkedList>
 
 namespace Ui {
 class addSequence;
@@ -16,6 +17,7 @@ public:
     void reject();
     ~addSequence();
 
+
 private slots:
 
     void on_buttonBox_accepted();
@@ -27,6 +29,7 @@ private:
     Ui::addSequence *ui;
 
     int serSeqParamErr = 0;
+
 };
 
 #endif // ADDSEQUENCE_H

@@ -5,7 +5,7 @@
 #include "serialconfig.h"
 #include "addsequence.h"
 #include <qlistwidget.h>
-#include "startsequence.h"
+#include "serialseq.h"
 
 #define TEXT_BROWSER_MARGIN_IN_PX 20
 
@@ -32,18 +32,19 @@ private slots:
 
     void on_actionStart_triggered();
 
-    void add_serial_seq_button_handler();
     void on_pushButton_clicked();
+    void on_serialSeqStartButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     serialConfig *serialConf;
     addSequence newSerialSeq;
-    startSequence *seq;
+    serialSeq serialseq;
 
     int topLeftTxtBrowser_x;
     int topLeftTxtBrowser_y;
     int gridLayLastRow = 0;
+
     void resizeEvent(QResizeEvent* event);
 };
 
