@@ -25,10 +25,10 @@ class serialSeq
 public:
     serialSeq();
     void addSeqToList(int id, const QString &seqName, const QString &seqData);
-    void printSeqList();
+    struct serialSequenceElem findSerialSeq(int seqId);
 
 private:
-    QList<struct serialSequenceElem*> serialSeqList;
+    QList<struct serialSequenceElem> serialSeqList;
 
 };
 

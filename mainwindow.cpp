@@ -112,7 +112,6 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
     ui->gridLayout->addWidget(sqData, this->gridLayLastRow, 2);
 
     this->serialseq.addSeqToList(this->gridLayLastRow, seqName, seqData);
-    this->serialseq.printSeqList();
     this->gridLayLastRow++;
 }
 
@@ -142,8 +141,9 @@ void MainWindow::on_serialSeqStartButton_clicked()
     {
         QVariant propertyV = sender()->property("butId");
         if (propertyV.isValid()) {
-            int property = propertyV.toInt();
-            qDebug() << "clickedButtonId: " << property;
+            int seqId = propertyV.toInt();
+            qDebug() << "clickedButtonId: " << seqId;
+            this->serialseq.findSerialSeq(seqId);
         }
 
     }
