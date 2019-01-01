@@ -16,10 +16,9 @@ void serialSeq::addSeqToList(int id, const QString &seqName, const QString &seqD
     seq.seqName = seqName;
 
     this->serialSeqList.append(seq);
-    qDebug() << "Num of items11: " <<this-> serialSeqList.size();
 }
 
-struct serialSequenceElem serialSeq::findSerialSeq(int seqId)
+struct serialSequenceElem* serialSeq::findSerialSeq(int seqId)
 {
     int it = 0;
     qDebug() << "Size of list: " << this->serialSeqList.size();
@@ -28,9 +27,10 @@ struct serialSequenceElem serialSeq::findSerialSeq(int seqId)
         if(this->serialSeqList[it].seqId == seqId)
         {
             qDebug() << "sequence is found. Index: " << it;
-            return this->serialSeqList[it];
+            return &this->serialSeqList[it];
         }
-
         it++;
     }
+
+    return NULL;
 }

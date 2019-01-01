@@ -143,7 +143,9 @@ void MainWindow::on_serialSeqStartButton_clicked()
         if (propertyV.isValid()) {
             int seqId = propertyV.toInt();
             qDebug() << "clickedButtonId: " << seqId;
-            this->serialseq.findSerialSeq(seqId);
+            struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
+
+            qDebug() << "curSeq Index: " << currentSeq->seqId << ", data: " << currentSeq->data;
         }
 
     }

@@ -3,6 +3,8 @@
 
 #include <QList>
 #include <QString>
+#include <QThread>
+#include <QTextBrowser>
 
 #define MAX_SERIAL_SEQ_COUNT 10
 
@@ -25,7 +27,7 @@ class serialSeq
 public:
     serialSeq();
     void addSeqToList(int id, const QString &seqName, const QString &seqData);
-    struct serialSequenceElem findSerialSeq(int seqId);
+    struct serialSequenceElem* findSerialSeq(int seqId);
 
 private:
     QList<struct serialSequenceElem> serialSeqList;
