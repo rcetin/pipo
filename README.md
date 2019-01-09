@@ -5,7 +5,7 @@
 # Build
 To build application, you need **qmake**. 
 
-    sudo apt install qt5-qmake
+    sudo apt install qt5-default 
 After installing necessary packets, **pipo** can be built.
 
     cd pipo
