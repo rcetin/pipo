@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QList>
+#include <QMessageBox>
 
 serialConfig::serialConfig(QWidget *parent) :
     QDialog(parent),
@@ -54,6 +55,11 @@ serialConfig::~serialConfig()
 
 void serialConfig::on_buttonBox_accepted()
 {
+    if(ui->port_name->currentText() == NULL)
+    {
+        QMessageBox::critical(this, "Serial Port Config Error", "Serial Port Name is empty!");
+        return;
+    }
 
     //emit sendNewSerialPortInfo()
     qDebug() << "Config is accepted!";
