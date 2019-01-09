@@ -15,6 +15,9 @@ public:
     explicit serialConfig(QWidget *parent = 0);
     ~serialConfig();
 
+signals:
+    void sendNewSerialPortInfo(QString portName, int baudRate, int dataBits, int stopBits, QString parity);
+
 private slots:
     void on_buttonBox_accepted();
 

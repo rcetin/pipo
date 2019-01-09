@@ -1,6 +1,8 @@
 #include "serialconfig.h"
 #include "ui_serialconfig.h"
 #include <QDebug>
+#include <QtSerialPort/QSerialPortInfo>
+#include <QList>
 
 serialConfig::serialConfig(QWidget *parent) :
     QDialog(parent),
@@ -13,15 +15,21 @@ serialConfig::serialConfig(QWidget *parent) :
                                 "border-radius: 5px;"
                                 "background: white;}");
 
-    ui->speed_list->addItem("300");
-    ui->speed_list->addItem("1200");
-    ui->speed_list->addItem("2400");
-    ui->speed_list->addItem("4800");
-    ui->speed_list->addItem("9600");
-    ui->speed_list->addItem("19200");
-    ui->speed_list->addItem("38400");
-    ui->speed_list->addItem("57600");
-    ui->speed_list->addItem("115200");
+    QList<qint32> listBaudRates;
+    listBaudRates = QSerialPortInfo::standardBaudRates();
+    if(listBaudRates.size())
+    {
+        for(int i = 0; i < listBaudRates.size(); i++)
+            ui->speed_list->addItem(QString::number(listBaudRates[i]));
+    }
+
+    QList<QSerialPortInfo> listPorts;
+    listPorts = QSerialPortInfo::availablePorts();
+    if(listPorts.size())
+    {
+        for(int i = 0; i < listPorts.size(); i++)
+            ui->port_name->addItem(listPorts[i].portName());
+    }
 
     ui->data_list->addItem("5");
     ui->data_list->addItem("6");
@@ -46,6 +54,8 @@ serialConfig::~serialConfig()
 
 void serialConfig::on_buttonBox_accepted()
 {
+
+    //emit sendNewSerialPortInfo()
     qDebug() << "Config is accepted!";
     qDebug() << "speed_list val: " << ui->speed_list->currentText();
     qDebug() << "data_list val: " << ui->data_list->currentText();

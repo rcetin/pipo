@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT       += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = pipo
@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     serialconfig.cpp \
     addsequence.cpp \
-    serialseq.cpp
+    serialseq.cpp \
+    serialport.cpp
 
 HEADERS += \
         mainwindow.h \
     serialconfig.h \
     addsequence.h \
-    serialseq.h
+    serialseq.h \
+    serialport.h
 
 FORMS += \
         mainwindow.ui \

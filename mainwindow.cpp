@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(&newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
+    //connect(port, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
 
     ui->pushButton->setToolTip("Add New Serial Sequence");
     int tempCorner;
@@ -149,4 +150,15 @@ void MainWindow::on_serialSeqStartButton_clicked()
         }
 
     }
+}
+
+void MainWindow::createNewSerialPort(QString portName, int baudRate, int dataBits, int stopBits, QString parity)
+{
+    if(this->port != NULL)
+    {
+        qDebug() << "A serial port is already created!";
+        return;
+    }
+
+    this->port = new serialPort(portName, baudRate, dataBits, stopBits, parity);
 }
