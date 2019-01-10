@@ -11,6 +11,7 @@
 #include <QSizePolicy>
 #include <QScrollBar>
 #include "serialseq.h"
+#include <QGridLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,16 +31,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::resizeEvent(QResizeEvent* event)
-{
-   QMainWindow::resizeEvent(event);
-
-   ui->textBrowser->setFixedHeight(this->size().height() - this->topLeftTxtBrowser_y - (TEXT_BROWSER_MARGIN_IN_PX + 2) - 59);
-   ui->textBrowser->setFixedWidth(this->size().width() - this->topLeftTxtBrowser_x - TEXT_BROWSER_MARGIN_IN_PX);
-
-   ui->scrollArea->setFixedHeight(this->size().height() - 140);
 }
 
 /**

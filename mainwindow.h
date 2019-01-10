@@ -43,8 +43,6 @@ private:
     int topLeftTxtBrowser_x;
     int topLeftTxtBrowser_y;
     int gridLayLastRow = 0;
-
-    void resizeEvent(QResizeEvent* event);
 };
 
 #endif // MAINWINDOW_H
