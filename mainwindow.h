@@ -36,7 +36,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     serialConfig *serialConf;   // This will add new serial port (Dialog)
-    addSequence newSerialSeq;   // This will add new sequence (Dialog)
+    addSequence *newSerialSeq;   // This will add new sequence (Dialog)
     serialSeq serialseq;    // This will keep all serial sequences in a list
     serialPort *port = NULL;    // This will keep serial port
 

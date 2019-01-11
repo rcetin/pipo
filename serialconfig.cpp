@@ -12,9 +12,9 @@ serialConfig::serialConfig(QWidget *parent) :
     ui->setupUi(this);
 
     // CSS for serialPortConfig GroupBox
-    ui->groupBox->setStyleSheet("QGroupBox {  border: 1px solid gray; "
-                                "border-radius: 5px;"
-                                "background: white;}");
+    //ui->groupBox->setStyleSheet("QGroupBox {  border: 1px solid gray; "
+     //                           "border-radius: 5px;"
+     //                           "background: white;}");
 
     QList<qint32> listBaudRates;
     listBaudRates = QSerialPortInfo::standardBaudRates();

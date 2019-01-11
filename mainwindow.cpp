@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(&newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
+    //connect(newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
     //connect(port, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
 
     ui->pushButton->setToolTip("Add New Serial Sequence");
@@ -115,8 +115,11 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
  */
 void MainWindow::on_pushButton_clicked()
 {
-    newSerialSeq.setModal(true);
-    newSerialSeq.exec();
+    newSerialSeq = new addSequence(this);
+    // Connect sequence info to main window function
+    connect(newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
+    newSerialSeq->setModal(true);
+    newSerialSeq->exec();
 }
 
 /**
