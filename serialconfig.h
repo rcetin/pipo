@@ -2,6 +2,7 @@
 #define SERIALCONFIG_H
 
 #include <QDialog>
+#include <QString>
 
 namespace Ui {
 class serialConfig;
@@ -15,11 +16,11 @@ public:
     explicit serialConfig(QWidget *parent = 0);
     ~serialConfig();
 
-signals:
-    void sendNewSerialPortInfo(QString portName, int baudRate, int dataBits, int stopBits, QString parity);
-
 private slots:
     void on_buttonBox_accepted();
+
+signals:
+    void sendNewSerialPortInfo(const QString portName, int baudRate, int dataBits, int stopBits, const QString parity);
 
 private:
     Ui::serialConfig *ui;

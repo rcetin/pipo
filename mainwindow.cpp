@@ -12,14 +12,13 @@
 #include <QScrollBar>
 #include "serialseq.h"
 #include <QGridLayout>
+#include "serialconfig.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //connect(newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
-    //connect(port, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
 
     ui->pushButton->setToolTip("Add New Serial Sequence");
     int tempCorner;
@@ -42,6 +41,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionSerial_Port_triggered()
 {
     serialConf = new serialConfig(this);
+    connect(serialConf, SIGNAL(sendNewSerialPortInfo(const QString , int , int , int , const QString )), this, SLOT(createNewSerialPort(const QString , int , int , int , const QString )));
     serialConf->setModal(true);
     serialConf->exec();
 }
@@ -146,7 +146,7 @@ void MainWindow::on_serialSeqStartButton_clicked()
     }
 }
 
-void MainWindow::createNewSerialPort(QString portName, int baudRate, int dataBits, int stopBits, QString parity)
+void MainWindow::createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, const QString parity)
 {
     if(this->port != NULL)
     {

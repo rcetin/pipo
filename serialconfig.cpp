@@ -61,7 +61,9 @@ void serialConfig::on_buttonBox_accepted()
         return;
     }
 
-    //emit sendNewSerialPortInfo()
+    emit sendNewSerialPortInfo(ui->port_name->currentText(), ui->speed_list->currentText().toInt(0, 10),
+                               ui->data_list->currentText().toInt(0, 10), ui->stop_list->currentText().toInt(0, 10),
+                               ui->parity_list->currentText());
     qDebug() << "Config is accepted!";
     qDebug() << "speed_list val: " << ui->speed_list->currentText();
     qDebug() << "data_list val: " << ui->data_list->currentText();

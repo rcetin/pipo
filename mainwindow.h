@@ -24,7 +24,7 @@ public:
 
 public slots:
     void addSerialSequence(const QString &, const QString &);
-    void createNewSerialPort(QString portName, int baudRate, int dataBits, int stopBits, QString parity);
+    void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, const QString parity);
 private slots:
 
     void on_actionSerial_Port_triggered();
