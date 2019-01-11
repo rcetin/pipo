@@ -23,7 +23,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void addSerialSequence(const QString &, const QString &);
+    void addSerialSequence(const QString &, const QString &, int);
     void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, const QString parity);
 private slots:
 

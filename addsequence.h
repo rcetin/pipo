@@ -23,7 +23,7 @@ private slots:
     void on_buttonBox_accepted();
 
 signals:
-    void sendSeqInfo(const QString &, const QString &);
+    void sendSeqInfo(const QString &, const QString &, int);
 
 private:
     Ui::addSequence *ui;

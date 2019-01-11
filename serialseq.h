@@ -20,13 +20,14 @@ struct serialSequenceElem
     int seqId;  // sequence id
     QString data;
     QString seqName;
+    int period = 0;
 };
 
 class serialSeq
 {
 public:
     serialSeq();
-    void addSeqToList(int id, const QString &seqName, const QString &seqData);
+    void addSeqToList(int id, int period, const QString &seqName, const QString &seqData);
     struct serialSequenceElem* findSerialSeq(int seqId);
 
 private:

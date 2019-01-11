@@ -8,12 +8,13 @@ serialSeq::serialSeq()
 
 }
 
-void serialSeq::addSeqToList(int id, const QString &seqName, const QString &seqData)
+void serialSeq::addSeqToList(int id, int period, const QString &seqName, const QString &seqData)
 {
     struct serialSequenceElem seq;
     seq.seqId = id;
     seq.data = seqData;
     seq.seqName = seqName;
+    seq.period = period;
 
     this->serialSeqList.append(seq);
 }

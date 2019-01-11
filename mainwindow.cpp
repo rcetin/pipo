@@ -79,7 +79,7 @@ void MainWindow::on_actionStart_triggered()
  *
  * @note This function is used to add serial sequence to memory.
  */
-void MainWindow::addSerialSequence(const QString & seqName, const QString &seqData)
+void MainWindow::addSerialSequence(const QString & seqName, const QString &seqData, int seqPeriod)
 {
     QPushButton *stBut = new QPushButton();
     stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
@@ -103,7 +103,7 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
     sqData->setReadOnly(1);
     ui->gridLayout->addWidget(sqData, this->gridLayLastRow, 2);
 
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqName, seqData);
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData);
     this->gridLayLastRow++;
 }
 
@@ -117,7 +117,7 @@ void MainWindow::on_pushButton_clicked()
 {
     newSerialSeq = new addSequence(this);
     // Connect sequence info to main window function
-    connect(newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &)), this, SLOT(addSerialSequence(const QString &, const QString &)));
+    connect(newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &, int)), this, SLOT(addSerialSequence(const QString &, const QString &, int)));
     newSerialSeq->setModal(true);
     newSerialSeq->exec();
 }
@@ -139,8 +139,9 @@ void MainWindow::on_serialSeqStartButton_clicked()
             int seqId = propertyV.toInt();
             qDebug() << "clickedButtonId: " << seqId;
             struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
-
-            qDebug() << "curSeq Index: " << currentSeq->seqId << ", data: " << currentSeq->data;
+            if(!currentSeq->period)
+                ui->textBrowser->insertPlainText(currentSeq->data);
+            qDebug() << "curSeq Index: " << currentSeq->seqId << ", data: " << currentSeq->data << "period: " << currentSeq->period;
         }
 
     }

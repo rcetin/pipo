@@ -165,6 +165,9 @@
           <height>768</height>
          </size>
         </property>
+        <property name="inputMethodHints">
+         <set>Qt::ImhNone</set>
+        </property>
        </widget>
       </item>
      </layout>
