@@ -20,7 +20,7 @@ private slots:
     void on_buttonBox_accepted();
 
 signals:
-    void sendNewSerialPortInfo(const QString portName, int baudRate, int dataBits, int stopBits, const QString parity);
+    void sendNewSerialPortInfo(const QString portName, int baudRate, int dataBits, int stopBits, int parity);
 
 private:
     Ui::serialConfig *ui;

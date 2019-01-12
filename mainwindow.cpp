@@ -13,6 +13,7 @@
 #include "serialseq.h"
 #include <QGridLayout>
 #include "serialconfig.h"
+#include <QMetaEnum>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -41,7 +42,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionSerial_Port_triggered()
 {
     serialConf = new serialConfig(this);
-    connect(serialConf, SIGNAL(sendNewSerialPortInfo(const QString , int , int , int , const QString )), this, SLOT(createNewSerialPort(const QString , int , int , int , const QString )));
+    connect(serialConf, SIGNAL(sendNewSerialPortInfo(const QString , int , int , int , int )), this, SLOT(createNewSerialPort(const QString , int , int , int , int )));
     serialConf->setModal(true);
     serialConf->exec();
 }
@@ -65,11 +66,16 @@ void MainWindow::on_actionQuit_triggered()
  */
 void MainWindow::on_actionStart_triggered()
 {
-    ui->textBrowser->insertPlainText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n");
+    if(this->port == NULL)
+        return;
+
+    int ret = this->port->open(QIODevice::ReadWrite);
+    if(ret == false)
+        qDebug() << "Error in opening serial port. Err: " << this->port->error();
 
     // Set scroll bar to bottom
-    QScrollBar *sb = ui->textBrowser->verticalScrollBar();
-    sb->setValue(sb->maximum());
+    // QScrollBar *sb = ui->textBrowser->verticalScrollBar();
+    // sb->setValue(sb->maximum());
 }
 
 /**
@@ -147,13 +153,46 @@ void MainWindow::on_serialSeqStartButton_clicked()
     }
 }
 
-void MainWindow::createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, const QString parity)
+void MainWindow::createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity)
 {
-    if(this->port != NULL)
-    {
-        qDebug() << "A serial port is already created!";
-        return;
-    }
+    if(port == NULL)
+        port = new QSerialPort();
 
-    this->port = new serialPort(portName, baudRate, dataBits, stopBits, parity);
+    port->close();
+
+    port->setBaudRate(baudRate);
+    port->setParity(QSerialPort::Parity(parity));
+    port->setDataBits(QSerialPort::DataBits(dataBits));
+    port->setStopBits(QSerialPort::StopBits(stopBits));
+    port->setPortName(portName);
+
+    //this->port = new serialPort(portName, baudRate, dataBits, stopBits, parity);
+    QFont mono("Ubuntu Mono", 11, QFont::Bold);
+    ui->pNameLabel->setText("Port: " + port->portName());
+    ui->pNameLabel->setFont(mono);
+
+    ui->pRateLabel->setText("Baudrate: " + QString::number(port->baudRate()));
+    ui->pRateLabel->setFont(mono);
+
+    QMetaEnum parEn = QMetaEnum::fromType<QSerialPort::Parity>();
+
+    ui->pParLabel->setText(QString("%1 | %2 | %3").arg(QString::number(port->dataBits()), parEn.valueToKey(parity), QString::number(port->stopBits())));
+    ui->pParLabel->setFont(mono);
+
+    ui->pStatus->setText("Status: Close");
+    ui->pStatus->setFont(mono);
+}
+
+/**
+ * @brief MainWindow::on_actionStop_triggered
+ *
+ * This will close the Serialport
+ */
+void MainWindow::on_actionStop_triggered()
+{
+    if(port == NULL)
+        return;
+
+    port->close();
+    port = NULL;
 }

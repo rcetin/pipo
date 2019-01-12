@@ -40,11 +40,11 @@ serialConfig::serialConfig(QWidget *parent) :
     ui->stop_list->addItem("1");
     ui->stop_list->addItem("2");
 
-    ui->parity_list->addItem("None");
-    ui->parity_list->addItem("Mark");
-    ui->parity_list->addItem("Even");
-    ui->parity_list->addItem("Odd");
-    ui->parity_list->addItem("Space");
+    ui->parity_list->addItem("None", QVariant(0));
+    ui->parity_list->addItem("Even", QVariant(2));
+    ui->parity_list->addItem("Odd", QVariant(3));
+    ui->parity_list->addItem("Space", QVariant(4));
+    ui->parity_list->addItem("Mark", QVariant(5));
 
 }
 
@@ -63,10 +63,11 @@ void serialConfig::on_buttonBox_accepted()
 
     emit sendNewSerialPortInfo(ui->port_name->currentText(), ui->speed_list->currentText().toInt(0, 10),
                                ui->data_list->currentText().toInt(0, 10), ui->stop_list->currentText().toInt(0, 10),
-                               ui->parity_list->currentText());
+                               ui->parity_list->currentData().toInt());
     qDebug() << "Config is accepted!";
     qDebug() << "speed_list val: " << ui->speed_list->currentText();
     qDebug() << "data_list val: " << ui->data_list->currentText();
     qDebug() << "stop_list val: " << ui->stop_list->currentText();
-    qDebug() << "parity_list val: " << ui->parity_list->currentText();
+    int dat = ui->parity_list->currentData().toInt();
+    qDebug() << "parity_list val: " << dat;
 }

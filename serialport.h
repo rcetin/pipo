@@ -14,12 +14,13 @@ public:
 
     void readPortConfiguration();
 
-private:
     QString portName;
     int baudRate;
     int dataBits;
     int stopBits;
     QString parity;
+
+private:
 };
 
 #endif // SERIALPORT_H
