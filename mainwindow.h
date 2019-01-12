@@ -6,7 +6,6 @@
 #include "addsequence.h"
 #include <qlistwidget.h>
 #include "serialseq.h"
-#include "serialport.h"
 #include <QSerialPort>
 
 #define TEXT_BROWSER_MARGIN_IN_PX 20

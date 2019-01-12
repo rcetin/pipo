@@ -94,20 +94,21 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
     connect(stBut, SIGNAL(clicked(bool)), this, SLOT(on_serialSeqStartButton_clicked()));
     ui->gridLayout->addWidget(stBut, this->gridLayLastRow, 0);
 
-    QLineEdit *sqName = new QLineEdit;
-    sqName->setText(seqName);
-    QString n = QString("Seq Name: %1").arg(seqName);
-    sqName->setToolTip(n);
+    QFont mono("Ubuntu Mono", 11, QFont::Normal);
 
-    sqName->setReadOnly(1);
-    ui->gridLayout->addWidget(sqName, this->gridLayLastRow, 1);
+    QLabel *lName = new QLabel("Name: [" + seqName + "]");
+    lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    lName->setMinimumWidth(80);
+    lName->setFont(mono);
+    lName->setToolTip(QString("Seq Name: %1").arg(seqName));
+    ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
 
-    QLineEdit *sqData = new QLineEdit;
-    sqData->setText(seqData);
-    QString str = QString("Data: %1").arg(seqData);
-    sqData->setToolTip(str);
-    sqData->setReadOnly(1);
-    ui->gridLayout->addWidget(sqData, this->gridLayLastRow, 2);
+    QLabel *lData = new QLabel("Data: " + seqData);
+    lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    lData->setMinimumWidth(80);
+    lData->setFont(mono);
+    lData->setToolTip(QString("Data: %1").arg(seqData));
+    ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
 
     this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData);
     this->gridLayLastRow++;

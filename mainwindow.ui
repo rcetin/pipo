@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>868</width>
-    <height>873</height>
+    <height>895</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -95,8 +95,15 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <italic>true</italic>
+              <underline>false</underline>
+             </font>
+            </property>
             <property name="text">
-             <string>Serial Sequence:</string>
+             <string>Serial Sequences</string>
             </property>
            </widget>
           </item>
@@ -183,6 +190,9 @@
               </property>
               <property name="bottomMargin">
                <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>20</number>
               </property>
              </layout>
             </item>
