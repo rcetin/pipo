@@ -14,6 +14,7 @@
 #include <QGridLayout>
 #include "serialconfig.h"
 #include <QMetaEnum>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -71,7 +72,14 @@ void MainWindow::on_actionStart_triggered()
 
     int ret = this->port->open(QIODevice::ReadWrite);
     if(ret == false)
-        qDebug() << "Error in opening serial port. Err: " << this->port->error();
+    {
+        QSerialPort::SerialPortError a;
+        a = this->port->error();
+        QMetaEnum err= QMetaEnum::fromType<QSerialPort::SerialPortError>();
+
+        QMessageBox::critical(this, "Port Open Error", err.valueToKey(int(a)));
+    }
+
 
     // Set scroll bar to bottom
     // QScrollBar *sb = ui->textBrowser->verticalScrollBar();
