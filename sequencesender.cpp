@@ -30,10 +30,14 @@ void sequenceSender::doWork()
     emit exitThread();
 }
 
+/**
+ * @brief sequenceSender::finishWork
+ *
+ * This will stop already started threads.
+ */
 void sequenceSender::finishWork()
 {
     threadStatus = 0;
-    qDebug() << "Thread is finished";
 }
 
 int sequenceSender::isAlive()

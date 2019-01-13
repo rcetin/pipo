@@ -127,7 +127,7 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
     lData->setToolTip(QString("Data: %1").arg(seqData));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
 
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData);
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData, stBut);
     this->gridLayLastRow++;
 }
 
@@ -266,6 +266,7 @@ void MainWindow::on_actionStop_triggered()
     if(portConfig.status == CLOSED)
         return;
 
+    serialseq.stopAllSequences();
     port->close();
     portConfig.status = CLOSED;
 }

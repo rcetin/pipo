@@ -1,14 +1,13 @@
 #include "serialseq.h"
 #include <QDebug>
-
-//QList<struct serialSequenceElem*> serialSeqList;
+#include <QIcon>
 
 serialSeq::serialSeq()
 {
 
 }
 
-void serialSeq::addSeqToList(int id, int period, const QString &seqName, const QString &seqData)
+void serialSeq::addSeqToList(int id, int period, const QString &seqName, const QString &seqData, QPushButton *button)
 {
     struct serialSequenceElem seq;
     seq.seqId = id;
@@ -17,6 +16,7 @@ void serialSeq::addSeqToList(int id, int period, const QString &seqName, const Q
     seq.period = period;
     seq.status = 0;
     seq.sender = NULL;
+    seq.button = button;
     this->serialSeqList.append(seq);
 }
 
@@ -35,4 +35,22 @@ struct serialSequenceElem* serialSeq::findSerialSeq(int seqId)
     }
 
     return NULL;
+}
+
+/**
+ * @brief serialSeq::stopAllSequences
+ *
+ * This function stops all the started sequences.
+ */
+void serialSeq::stopAllSequences()
+{
+    int it = 0;
+    while(it != this->serialSeqList.size())
+    {
+        serialSeqList[it].sender->finishWork();
+        serialSeqList[it].button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+        serialSeqList[it].status = 0;
+        it++;
+    }
+
 }

@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QTextBrowser>
 #include "sequencesender.h"
+#include <QPushButton>
 
 #define MAX_SERIAL_SEQ_COUNT 10
 
@@ -24,14 +25,16 @@ struct serialSequenceElem
     int period = 0;
     int status;
     sequenceSender *sender;
+    QPushButton *button;
 };
 
 class serialSeq
 {
 public:
     serialSeq();
-    void addSeqToList(int id, int period, const QString &seqName, const QString &seqData);
+    void addSeqToList(int id, int period, const QString &seqName, const QString &seqData, QPushButton *button);
     struct serialSequenceElem* findSerialSeq(int seqId);
+    void stopAllSequences();
 
 private:
     QList<struct serialSequenceElem> serialSeqList;
