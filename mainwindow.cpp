@@ -74,7 +74,10 @@ void MainWindow::on_actionStart_triggered()
         return;
 
     if(portConfig.status == OPENED)
+    {
+        //qDebug() << "port already open!";
         return;
+    }
 
     int ret = this->port->open(QIODevice::ReadWrite);
     qDebug() << "port open retval: " << ret << " name: " << port->portName() << "isope:" << port->isOpen();
@@ -193,7 +196,7 @@ void MainWindow::on_serialSeqStartButton_clicked()
 
             if(!currentSeq->period)
             {
-                port->write((char *) currentSeq->data.toLocal8Bit().constData(), currentSeq->data.size());
+                writeToSerialPort((char *) currentSeq->data.toLocal8Bit().constData(), currentSeq->data.size());
                 return;
             }
             else
