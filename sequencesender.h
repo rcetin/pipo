@@ -18,12 +18,16 @@ signals:
 
 public slots:
     void doWork();
-    void finish();
+    void finishWork();
 
 private:
+    int isAlive();
+
+    int threadStatus = 0;
     QSerialPort *localPort;
     QString sequence;
     int interval;
+
 };
 
 #endif // SEQUENCESENDER_H

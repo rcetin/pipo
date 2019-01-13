@@ -169,22 +169,29 @@ void MainWindow::on_serialSeqStartButton_clicked()
 
             if(currentSeq->status == 1)
             {
+                currentSeq->sender->finishWork();
                 qDebug() << "send stop signal to thread";
+                currentSeq->status = 0;
+                clickedButton->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
                 return;
             }
 
             if(!currentSeq->period)
-                ui->textBrowser->insertPlainText(currentSeq->data);
+            {
+                port->write((char *) currentSeq->data.toLocal8Bit().constData(), currentSeq->data.size());
+                return;
+            }
             else
             {
                 QThread *testThread = new QThread();
                 sequenceSender *sender = new sequenceSender();
                 connect(sender, SIGNAL(writeToPort(char *, int)), this, SLOT(writeToSerialPort(char *, int)));
 
+                currentSeq->sender = sender;
                 sender->deleteLater();
                 sender->doSetup(*testThread, port, currentSeq->data, currentSeq->period);
                 sender->moveToThread(testThread);
-                testThread->start();
+                                testThread->start();
             }
             clickedButton->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/sequence_stop_but.png"));
             currentSeq->status = 1;

@@ -5,6 +5,7 @@
 #include <QString>
 #include <QThread>
 #include <QTextBrowser>
+#include "sequencesender.h"
 
 #define MAX_SERIAL_SEQ_COUNT 10
 
@@ -22,6 +23,7 @@ struct serialSequenceElem
     QString seqName;
     int period = 0;
     int status;
+    sequenceSender *sender;
 };
 
 class serialSeq

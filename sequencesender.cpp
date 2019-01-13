@@ -14,14 +14,14 @@ void sequenceSender::doSetup(QThread &cThread, QSerialPort *port, QString seq, i
     connect(&cThread, SIGNAL(started()), this, SLOT(doWork()));
     connect(this, SIGNAL(exitThread()), &cThread, SLOT(quit()));
     connect(&cThread, SIGNAL(finished()), &cThread, SLOT(deleteLater()));
-    connect(&cThread, SIGNAL(finished()), this, SLOT(finish()));
 }
 
 void sequenceSender::doWork()
 {
     qDebug() << "status: " << localPort->isOpen();
+    threadStatus = 1;
 
-    for(int i = 0; i < 5; i++)
+    while(isAlive())
     {
         emit writeToPort((char *) sequence.toLocal8Bit().constData(), sequence.size());
         QThread::sleep(interval);
@@ -30,7 +30,13 @@ void sequenceSender::doWork()
     emit exitThread();
 }
 
-void sequenceSender::finish()
+void sequenceSender::finishWork()
 {
+    threadStatus = 0;
     qDebug() << "Thread is finished";
+}
+
+int sequenceSender::isAlive()
+{
+    return threadStatus;
 }
