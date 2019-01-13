@@ -24,10 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->pushButton->setToolTip("Add New Serial Sequence");
-    int tempCorner;
-    ui->textBrowser->geometry().getCoords(&this->topLeftTxtBrowser_x, &this->topLeftTxtBrowser_y, &tempCorner, &tempCorner);
-    QFont serifFont("Times", 12);
-    ui->textBrowser->setFont(serifFont);
+    QFont mono("Ubuntu Mono", 11, QFont::Normal);
+    ui->textBrowser->setFont(mono);
 }
 
 MainWindow::~MainWindow()
@@ -274,5 +272,19 @@ void MainWindow::on_actionStop_triggered()
 void MainWindow::writeToSerialPort(char *sendSeq, int size)
 {
     port->write(sendSeq, size);
-    ui->textBrowser->insertHtml("sendSeq");
+    QString dat = sendSeq;
+    //QFont mono("Ubuntu Mono", 11, QFont::Bold);
+
+    QString format("<font color=\"%1\"><b>%2</b></font>");
+    QColor color("green");
+    ui->textBrowser->insertHtml(format.arg(color.name(), "TX: ") + dat);
+    ui->textBrowser->insertPlainText("\n");
+
+    QScrollBar *sb = ui->textBrowser->verticalScrollBar();
+    if(sb->value() < (sb->maximum() - TEXT_BROWSER_MOUSE_HOVER_THR))
+        return;
+
+    qDebug() << "scroll val bef: " << sb->value();
+    sb->setValue(sb->maximum());
+    qDebug() << "scroll val last: " << sb->value();
 }

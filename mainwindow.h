@@ -9,6 +9,7 @@
 #include <QSerialPort>
 
 #define TEXT_BROWSER_MARGIN_IN_PX 20
+#define TEXT_BROWSER_MOUSE_HOVER_THR 100
 
 enum portStatus
 {
