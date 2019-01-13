@@ -75,10 +75,7 @@ void MainWindow::on_actionStart_triggered()
         return;
 
     if(portConfig.status == OPENED)
-    {
-        port->write("test", 4);
         return;
-    }
 
     int ret = this->port->open(QIODevice::ReadWrite);
     if(ret == false)
@@ -161,6 +158,23 @@ void MainWindow::on_serialSeqStartButton_clicked()
     QPushButton* clickedButton = qobject_cast< QPushButton* >( sender() );
     if ( clickedButton )
     {
+        if(portConfig.status == CLOSED)
+        {
+            int ret = port->open(QIODevice::ReadWrite);
+            if(ret == false)
+            {
+                QSerialPort::SerialPortError a;
+                a = port->error();
+                QMetaEnum err= QMetaEnum::fromType<QSerialPort::SerialPortError>();
+
+                QMessageBox::critical(this, "Port Open Error", err.valueToKey(int(a)));
+                return;
+            }
+
+            portConfig.status = OPENED;
+
+        }
+
         QVariant propertyV = sender()->property("butId");
         if (propertyV.isValid()) {
             int seqId = propertyV.toInt();
@@ -260,4 +274,5 @@ void MainWindow::on_actionStop_triggered()
 void MainWindow::writeToSerialPort(char *sendSeq, int size)
 {
     port->write(sendSeq, size);
+    ui->textBrowser->insertHtml("sendSeq");
 }
