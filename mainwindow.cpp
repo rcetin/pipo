@@ -16,6 +16,7 @@
 #include <QMetaEnum>
 #include <QMessageBox>
 #include "sequencesender.h"
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -277,16 +278,18 @@ void MainWindow::writeToSerialPort(char *sendSeq, int size)
     if(ret < 0)
         qDebug() << "Serial port write error!";
 
-    QString dat = sendSeq;
+    QScrollBar *sb = ui->textBrowser->verticalScrollBar();
 
-    QString format("<font color=\"%1\"><b>%2</b></font>");
+    QString dat = sendSeq;
+    QString currentTime(QDateTime::currentDateTime().toString("hh:mm:ss:zzz"));
+    QString format("<font color=\"%1\"><b>%2 | %3: </b></font>");
     QColor color("green");
     ui->textBrowser->moveCursor(QTextCursor::End);
-    ui->textBrowser->insertHtml(format.arg(color.name(), "TX: ") + dat);
+    ui->textBrowser->insertHtml(format.arg(color.name(), "TX", currentTime) + dat);
     ui->textBrowser->insertPlainText("\n");
 
-    QScrollBar *sb = ui->textBrowser->verticalScrollBar();
     if(sb->value() < (sb->maximum() - TEXT_BROWSER_MOUSE_HOVER_THR))
         return;
+
     sb->setValue(sb->maximum());
 }

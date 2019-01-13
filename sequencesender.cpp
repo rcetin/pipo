@@ -24,7 +24,7 @@ void sequenceSender::doWork()
     while(isAlive())
     {
         emit writeToPort((char *) sequence.toLocal8Bit().constData(), sequence.size());
-        QThread::sleep(interval);
+        QThread::msleep(interval);
     }
 
     emit exitThread();

@@ -115,7 +115,7 @@
        <item row="3" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Periodic Se&amp;quence</string>
+          <string>Periodic Se&amp;quence (ms)</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
