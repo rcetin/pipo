@@ -10,6 +10,23 @@
 
 #define TEXT_BROWSER_MARGIN_IN_PX 20
 
+enum portStatus
+{
+    OPENED = 0,
+    CLOSED = 1,
+};
+
+struct serialportConf
+{
+    QString name;
+    int parity;
+    int baud;
+    int data;
+    int stop;
+    int flowControl;
+    int status;
+};
+
 namespace Ui {
 class MainWindow;
 }
@@ -37,14 +54,15 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    serialConfig *serialConf;   // This will add new serial port (Dialog)
-    addSequence *newSerialSeq;   // This will add new sequence (Dialog)
+    serialConfig *serialConf = NULL;   // This will add new serial port (Dialog)
+    addSequence *newSerialSeq = NULL;   // This will add new sequence (Dialog)
     serialSeq serialseq;    // This will keep all serial sequences in a list
     QSerialPort *port = NULL;    // This will keep serial port
 
     int topLeftTxtBrowser_x;
     int topLeftTxtBrowser_y;
     int gridLayLastRow = 0;
+    struct serialportConf portConfig;
 };
 
 #endif // MAINWINDOW_H

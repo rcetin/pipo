@@ -15,6 +15,7 @@
 #include "serialconfig.h"
 #include <QMetaEnum>
 #include <QMessageBox>
+#include "sequencesender.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -32,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete port;
+    delete serialConf;
+    delete newSerialSeq;
 }
 
 /**
@@ -70,6 +74,12 @@ void MainWindow::on_actionStart_triggered()
     if(this->port == NULL)
         return;
 
+    if(portConfig.status == OPENED)
+    {
+        port->write("test", 4);
+        return;
+    }
+
     int ret = this->port->open(QIODevice::ReadWrite);
     if(ret == false)
     {
@@ -78,8 +88,10 @@ void MainWindow::on_actionStart_triggered()
         QMetaEnum err= QMetaEnum::fromType<QSerialPort::SerialPortError>();
 
         QMessageBox::critical(this, "Port Open Error", err.valueToKey(int(a)));
+        return;
     }
 
+    portConfig.status = OPENED;
 
     // Set scroll bar to bottom
     // QScrollBar *sb = ui->textBrowser->verticalScrollBar();
@@ -95,7 +107,7 @@ void MainWindow::on_actionStart_triggered()
  */
 void MainWindow::addSerialSequence(const QString & seqName, const QString &seqData, int seqPeriod)
 {
-    QPushButton *stBut = new QPushButton();
+    QPushButton *stBut = new QPushButton(this);
     stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
     stBut->setFixedSize(QSize(30, 20));
     stBut->setProperty("butId", this->gridLayLastRow);
@@ -104,14 +116,14 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
 
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
 
-    QLabel *lName = new QLabel("Name: [" + seqName + "]");
+    QLabel *lName = new QLabel("Name: [" + seqName + "]", this);
     lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lName->setMinimumWidth(80);
     lName->setFont(mono);
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
     ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
 
-    QLabel *lData = new QLabel("Data: " + seqData);
+    QLabel *lData = new QLabel("Data: " + seqData, this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lData->setMinimumWidth(80);
     lData->setFont(mono);
@@ -156,6 +168,15 @@ void MainWindow::on_serialSeqStartButton_clicked()
             struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
             if(!currentSeq->period)
                 ui->textBrowser->insertPlainText(currentSeq->data);
+            else
+            {
+                QThread *testThread = new QThread();
+                sequenceSender *sender = new sequenceSender();
+                sender->deleteLater();
+                sender->doSetup(*testThread);
+                sender->moveToThread(testThread);
+                testThread->start();
+            }
             qDebug() << "curSeq Index: " << currentSeq->seqId << ", data: " << currentSeq->data << "period: " << currentSeq->period;
         }
 
@@ -190,6 +211,13 @@ void MainWindow::createNewSerialPort(const QString portName, int baudRate, int d
 
     ui->pStatus->setText("Status: Close");
     ui->pStatus->setFont(mono);
+
+    portConfig.baud = baudRate;
+    portConfig.data = dataBits;
+    portConfig.name = portName;
+    portConfig.stop = stopBits;
+    portConfig.parity = parity;
+    portConfig.status = CLOSED;
 }
 
 /**
@@ -202,6 +230,10 @@ void MainWindow::on_actionStop_triggered()
     if(port == NULL)
         return;
 
+    if(portConfig.status == CLOSED)
+        return;
+
     port->close();
+    portConfig.status = CLOSED;
     port = NULL;
 }

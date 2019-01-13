@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     serialconfig.cpp \
     addsequence.cpp \
-    serialseq.cpp
+    serialseq.cpp \
+    sequencesender.cpp
 
 HEADERS += \
         mainwindow.h \
     serialconfig.h \
     addsequence.h \
-    serialseq.h
+    serialseq.h \
+    sequencesender.h
 
 FORMS += \
         mainwindow.ui \
