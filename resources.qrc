@@ -6,5 +6,6 @@
         <file>img/pipo_icon.png</file>
         <file>img/quit.png</file>
         <file>img/add_new_seq.ico</file>
+        <file>img/sequence_stop_but.png</file>
     </qresource>
 </RCC>

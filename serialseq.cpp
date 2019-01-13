@@ -15,7 +15,7 @@ void serialSeq::addSeqToList(int id, int period, const QString &seqName, const Q
     seq.data = seqData;
     seq.seqName = seqName;
     seq.period = period;
-
+    seq.status = 0;
     this->serialSeqList.append(seq);
 }
 

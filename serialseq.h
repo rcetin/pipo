@@ -21,6 +21,7 @@ struct serialSequenceElem
     QString data;
     QString seqName;
     int period = 0;
+    int status;
 };
 
 class serialSeq

@@ -42,6 +42,8 @@ public:
 public slots:
     void addSerialSequence(const QString &, const QString &, int);
     void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity);
+    void writeToSerialPort(char *, int);
+
 private slots:
 
     void on_actionSerial_Port_triggered();
@@ -49,7 +51,6 @@ private slots:
     void on_actionStart_triggered();
     void on_pushButton_clicked();
     void on_serialSeqStartButton_clicked();
-
     void on_actionStop_triggered();
 
 private:
