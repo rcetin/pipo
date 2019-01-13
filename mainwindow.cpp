@@ -76,6 +76,8 @@ void MainWindow::on_actionStart_triggered()
         return;
 
     int ret = this->port->open(QIODevice::ReadWrite);
+    qDebug() << "port open retval: " << ret << " name: " << port->portName() << "isope:" << port->isOpen();
+
     if(ret == false)
     {
         QSerialPort::SerialPortError a;
@@ -266,25 +268,24 @@ void MainWindow::on_actionStop_triggered()
 
     port->close();
     portConfig.status = CLOSED;
-    port = NULL;
 }
 
 void MainWindow::writeToSerialPort(char *sendSeq, int size)
 {
-    port->write(sendSeq, size);
+    int ret = port->write(sendSeq, size);
+    if(ret < 0)
+        qDebug() << "Serial port write error!";
+
     QString dat = sendSeq;
-    //QFont mono("Ubuntu Mono", 11, QFont::Bold);
 
     QString format("<font color=\"%1\"><b>%2</b></font>");
     QColor color("green");
+    ui->textBrowser->moveCursor(QTextCursor::End);
     ui->textBrowser->insertHtml(format.arg(color.name(), "TX: ") + dat);
     ui->textBrowser->insertPlainText("\n");
 
     QScrollBar *sb = ui->textBrowser->verticalScrollBar();
     if(sb->value() < (sb->maximum() - TEXT_BROWSER_MOUSE_HOVER_THR))
         return;
-
-    qDebug() << "scroll val bef: " << sb->value();
     sb->setValue(sb->maximum());
-    qDebug() << "scroll val last: " << sb->value();
 }

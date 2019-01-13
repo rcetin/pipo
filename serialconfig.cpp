@@ -11,11 +11,6 @@ serialConfig::serialConfig(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // CSS for serialPortConfig GroupBox
-    //ui->groupBox->setStyleSheet("QGroupBox {  border: 1px solid gray; "
-     //                           "border-radius: 5px;"
-     //                           "background: white;}");
-
     QList<qint32> listBaudRates;
     listBaudRates = QSerialPortInfo::standardBaudRates();
     if(listBaudRates.size())
@@ -23,6 +18,7 @@ serialConfig::serialConfig(QWidget *parent) :
         for(int i = 0; i < listBaudRates.size(); i++)
             ui->speed_list->addItem(QString::number(listBaudRates[i]));
     }
+    ui->speed_list->setCurrentText(QString::number(115200));
 
     QList<QSerialPortInfo> listPorts;
     listPorts = QSerialPortInfo::availablePorts();
@@ -36,6 +32,7 @@ serialConfig::serialConfig(QWidget *parent) :
     ui->data_list->addItem("6");
     ui->data_list->addItem("7");
     ui->data_list->addItem("8");
+    ui->data_list->setCurrentText("8");
 
     ui->stop_list->addItem("1");
     ui->stop_list->addItem("2");
