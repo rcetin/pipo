@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButton->setToolTip("Add New Serial Sequence");
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
     ui->textBrowser->setFont(mono);
+
+    portConfig.status = CLOSED;
 }
 
 MainWindow::~MainWindow()
@@ -93,6 +95,9 @@ void MainWindow::on_actionStart_triggered()
     }
 
     portConfig.status = OPENED;
+    QFont mono("Ubuntu Mono", 11, QFont::Bold);
+    ui->pStatus->setText("Status: Open");
+    ui->pStatus->setFont(mono);
 
     // Set scroll bar to bottom
     // QScrollBar *sb = ui->textBrowser->verticalScrollBar();
@@ -158,12 +163,18 @@ void MainWindow::on_pushButton_clicked()
  */
 void MainWindow::on_serialSeqStartButton_clicked()
 {
+    if(port == NULL)
+    {
+        QMessageBox::information(this, "Information", "Please, configure new serial port before starting sequence.");
+        return;
+    }
+
     qDebug() << "Serial sequence start button is clicked!" ;
     QPushButton* clickedButton = qobject_cast< QPushButton* >( sender() );
     if ( clickedButton )
     {
         if(portConfig.status == CLOSED)
-        {
+        {          
             int ret = port->open(QIODevice::ReadWrite);
             if(ret == false)
             {
@@ -176,7 +187,9 @@ void MainWindow::on_serialSeqStartButton_clicked()
             }
 
             portConfig.status = OPENED;
-
+            QFont mono("Ubuntu Mono", 11, QFont::Bold);
+            ui->pStatus->setText("Status: Open");
+            ui->pStatus->setFont(mono);
         }
 
         QVariant propertyV = sender()->property("butId");
@@ -209,7 +222,7 @@ void MainWindow::on_serialSeqStartButton_clicked()
                 sender->deleteLater();
                 sender->doSetup(*testThread, port, currentSeq->data, currentSeq->period);
                 sender->moveToThread(testThread);
-                                testThread->start();
+                testThread->start();
             }
             clickedButton->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/sequence_stop_but.png"));
             currentSeq->status = 1;
@@ -226,6 +239,8 @@ void MainWindow::createNewSerialPort(const QString portName, int baudRate, int d
         port = new QSerialPort();
 
     port->close();
+    if(portConfig.status == OPENED)
+        serialseq.stopAllSequences();
 
     port->setBaudRate(baudRate);
     port->setParity(QSerialPort::Parity(parity));
@@ -273,6 +288,9 @@ void MainWindow::on_actionStop_triggered()
     serialseq.stopAllSequences();
     port->close();
     portConfig.status = CLOSED;
+    QFont mono("Ubuntu Mono", 11, QFont::Bold);
+    ui->pStatus->setText("Status: Close");
+    ui->pStatus->setFont(mono);
 }
 
 void MainWindow::writeToSerialPort(char *sendSeq, int size)

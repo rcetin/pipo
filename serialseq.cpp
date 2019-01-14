@@ -44,10 +44,16 @@ struct serialSequenceElem* serialSeq::findSerialSeq(int seqId)
  */
 void serialSeq::stopAllSequences()
 {
+    qDebug() << "stopping all sequences! size: " << serialSeqList.size();
     int it = 0;
     while(it != this->serialSeqList.size())
     {
-        serialSeqList[it].sender->finishWork();
+        if(serialSeqList[it].sender != NULL)
+        {
+            serialSeqList[it].sender->finishWork();
+            serialSeqList[it].sender = NULL;
+        }
+
         serialSeqList[it].button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
         serialSeqList[it].status = 0;
         it++;
