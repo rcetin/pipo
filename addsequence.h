@@ -22,6 +22,8 @@ private slots:
 
     void on_buttonBox_accepted();
 
+    void on_hexInput_textChanged();
+
 signals:
     void sendSeqInfo(const QString &, const QString &, int);
 
