@@ -62,6 +62,12 @@ void addSequence::on_buttonBox_accepted()
             sendData[i]=ran.toInt(&ok, 16);
         }
 
+        if(sendData.size() >= MAX_SENDABLE_DATA_LEN)
+        {
+            QMessageBox::critical(this, "Error!", "Maximum Hex input size is 255 bytes!!");
+            return;
+        }
+
         qDebug() << "hex in: " << ui->hexInput->toPlainText();
         qDebug() << "hex byte array: " << sendData;
         sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10));
@@ -71,11 +77,6 @@ void addSequence::on_buttonBox_accepted()
         // Ascii input is given
         emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10));
     }
-
-    qDebug() << "Val: " <<ui->seq_period->toPlainText().toInt(0, 10);
-    ui->seqName->clear();
-    ui->seqData->clear();
-    ui->seq_period->clear();
 }
 
 

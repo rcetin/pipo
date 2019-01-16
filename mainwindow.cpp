@@ -122,14 +122,14 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
 
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
 
-    QLabel *lName = new QLabel("Name: [" + seqName + "]", this);
+    QLabel *lName = new QLabel("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]", this);
     lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lName->setMinimumWidth(80);
     lName->setFont(mono);
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
     ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
 
-    QLabel *lData = new QLabel("Data: " + seqData, this);
+    QLabel *lData = new QLabel("Data: " + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN), this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lData->setMinimumWidth(80);
     lData->setFont(mono);
@@ -153,14 +153,14 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
 
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
 
-    QLabel *lName = new QLabel("Name: [" + seqName + "]", this);
+    QLabel *lName = new QLabel("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]", this);
     lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lName->setMinimumWidth(80);
     lName->setFont(mono);
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
     ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
 
-    QLabel *lData = new QLabel("Data: " + seqDataAscii, this);
+    QLabel *lData = new QLabel("Data: " + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN), this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lData->setMinimumWidth(80);
     lData->setFont(mono);
