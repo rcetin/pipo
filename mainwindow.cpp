@@ -346,3 +346,8 @@ void MainWindow::writeToSerialPort(char *sendSeq, int size, const QString &textD
 
     sb->setValue(sb->maximum());
 }
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::about(this, "About Pipo", "<b>Created by Ramazan Çetin</b>");
+}

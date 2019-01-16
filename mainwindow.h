@@ -59,6 +59,8 @@ private slots:
     void on_serialSeqStartButton_clicked();
     void on_actionStop_triggered();
 
+    void on_actionAbout_triggered();
+
 private:
     Ui::MainWindow *ui;
     serialConfig *serialConf = NULL;   // This will add new serial port (Dialog)
