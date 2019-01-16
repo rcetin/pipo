@@ -35,7 +35,7 @@ class serialSeq
 {
 public:
     serialSeq();
-    void addSeqToList(int id, int period, const QString &seqName, char *seqData, int dataLen, QPushButton *button);
+    void addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, QPushButton *button);
     struct serialSequenceElem* findSerialSeq(int seqId);
     void stopAllSequences();
 

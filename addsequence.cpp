@@ -72,8 +72,6 @@ void addSequence::on_buttonBox_accepted()
         emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10));
     }
 
-    //emit sendSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10));
-
     qDebug() << "Val: " <<ui->seq_period->toPlainText().toInt(0, 10);
     ui->seqName->clear();
     ui->seqData->clear();

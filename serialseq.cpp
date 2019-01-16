@@ -7,7 +7,7 @@ serialSeq::serialSeq()
 
 }
 
-void serialSeq::addSeqToList(int id, int period, const QString &seqName, char *seqData, int dataLen, QPushButton *button)
+void serialSeq::addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, QPushButton *button)
 {
     struct serialSequenceElem seq;
     seq.seqId = id;
