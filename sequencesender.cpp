@@ -1,16 +1,19 @@
 #include "sequencesender.h"
 #include <QDebug>
+#include <QString>
 
 sequenceSender::sequenceSender(QObject *parent) : QObject(parent)
 {
 
 }
 
-void sequenceSender::doSetup(QThread &cThread, QSerialPort *port, QString seq, int sendInterval)
+void sequenceSender::doSetup(QThread &cThread, QSerialPort *port, char *seq, int size, int sendInterval, QString &txtData)
 {
     localPort = port;
     sequence = seq;
+    seqSize = size;
     interval = sendInterval;
+    textDat = txtData;
     connect(&cThread, SIGNAL(started()), this, SLOT(doWork()));
     connect(this, SIGNAL(exitThread()), &cThread, SLOT(quit()));
     connect(&cThread, SIGNAL(finished()), &cThread, SLOT(deleteLater()));
@@ -23,7 +26,7 @@ void sequenceSender::doWork()
 
     while(isAlive())
     {
-        emit writeToPort((char *) sequence.toLocal8Bit().constData(), sequence.size());
+        emit writeToPort(sequence, seqSize, textDat);
         QThread::msleep(interval);
     }
 

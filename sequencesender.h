@@ -4,17 +4,18 @@
 #include <QObject>
 #include <QThread>
 #include <QSerialPort>
+#include <QString>
 
 class sequenceSender : public QObject
 {
     Q_OBJECT
 public:
     explicit sequenceSender(QObject *parent = nullptr);
-    void doSetup(QThread &cThread, QSerialPort *port, QString seq, int sendInterval);
+    void doSetup(QThread &cThread, QSerialPort *port, char *seq, int size, int sendInterval, QString &txtData);
 
 signals:
     void exitThread();
-    void writeToPort(char *, int);
+    void writeToPort(char *, int, const QString &);
 
 public slots:
     void doWork();
@@ -25,8 +26,10 @@ private:
 
     int threadStatus = 0;
     QSerialPort *localPort;
-    QString sequence;
+    char *sequence;
+    int seqSize;
     int interval;
+    QString textDat;
 
 };
 

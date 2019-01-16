@@ -23,6 +23,7 @@ struct serialSequenceElem
     int seqId;  // sequence id
     char data[MAX_SENDABLE_DATA_LEN];
     int dataLen;
+    QString textData;   // String version of data to print
     QString seqName;
     int period = 0;
     int status;
@@ -35,7 +36,7 @@ class serialSeq
 {
 public:
     serialSeq();
-    void addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, QPushButton *button);
+    void addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat, QPushButton *button);
     struct serialSequenceElem* findSerialSeq(int seqId);
     void stopAllSequences();
 

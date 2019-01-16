@@ -138,11 +138,11 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
 
     char data[MAX_SENDABLE_DATA_LEN] = {0};
     memcpy( data, seqData.toStdString().c_str() ,seqData.size());
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, data, seqData.size(), stBut);
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, data, seqData.size(), seqData, stBut);
     this->gridLayLastRow++;
 }
 
-void MainWindow::addHexSequence(const QString &seqName, const QByteArray &seqData, int seqPeriod)
+void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAscii, const QByteArray &seqData, int seqPeriod)
 {
     QPushButton *stBut = new QPushButton(this);
     stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
@@ -160,14 +160,14 @@ void MainWindow::addHexSequence(const QString &seqName, const QByteArray &seqDat
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
     ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
 
-    QLabel *lData = new QLabel("Data: " + seqData, this);
+    QLabel *lData = new QLabel("Data: " + seqDataAscii, this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lData->setMinimumWidth(80);
     lData->setFont(mono);
-    lData->setToolTip(QString("Data: %1").arg(seqData.data()));
+    lData->setToolTip(QString("Data: %1").arg(seqDataAscii));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
 
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData.data(), seqData.size(), stBut);
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii, stBut);
     this->gridLayLastRow++;
 
 }
@@ -183,7 +183,7 @@ void MainWindow::on_pushButton_clicked()
     newSerialSeq = new addSequence(this);
     // Connect sequence info to main window function
     connect(newSerialSeq, SIGNAL(sendAsciiSeqInfo(const QString &, const QString &, int)), this, SLOT(addAsciiSequence(const QString &, const QString &, int)));
-    connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QByteArray&, int)), this, SLOT(addHexSequence(const QString &, const QByteArray&, int)));
+    connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QString &, const QByteArray&, int)), this, SLOT(addHexSequence(const QString &, const QString &, const QByteArray&, int)));
     newSerialSeq->setModal(true);
     newSerialSeq->exec();
 }
@@ -242,18 +242,18 @@ void MainWindow::on_serialSeqStartButton_clicked()
 
             if(!currentSeq->period)
             {
-                writeToSerialPort((char *) currentSeq->data, currentSeq->dataLen);
+                writeToSerialPort((char *) currentSeq->data, currentSeq->dataLen, currentSeq->textData);
                 return;
             }
             else
             {
                 QThread *testThread = new QThread();
                 sequenceSender *sender = new sequenceSender();
-                connect(sender, SIGNAL(writeToPort(char *, int)), this, SLOT(writeToSerialPort(char *, int)));
+                connect(sender, SIGNAL(writeToPort(char *, int, const QString &)), this, SLOT(writeToSerialPort(char *, int, const QString &)));
 
                 currentSeq->sender = sender;
                 sender->deleteLater();
-                sender->doSetup(*testThread, port, currentSeq->data, currentSeq->period);
+                sender->doSetup(*testThread, port, currentSeq->data, currentSeq->dataLen, currentSeq->period, currentSeq->textData);
                 sender->moveToThread(testThread);
                 testThread->start();
             }
@@ -326,7 +326,7 @@ void MainWindow::on_actionStop_triggered()
     ui->pStatus->setFont(mono);
 }
 
-void MainWindow::writeToSerialPort(char *sendSeq, int size)
+void MainWindow::writeToSerialPort(char *sendSeq, int size, const QString &textData)
 {
     int ret = port->write(sendSeq, size);
     if(ret < 0)
@@ -334,12 +334,11 @@ void MainWindow::writeToSerialPort(char *sendSeq, int size)
 
     QScrollBar *sb = ui->textBrowser->verticalScrollBar();
 
-    QString dat = sendSeq;
     QString currentTime(QDateTime::currentDateTime().toString("hh:mm:ss:zzz"));
     QString format("<font color=\"%1\"><b>%2 | %3: </b></font>");
     QColor color("green");
     ui->textBrowser->moveCursor(QTextCursor::End);
-    ui->textBrowser->insertHtml(format.arg(color.name(), "TX", currentTime) + dat);
+    ui->textBrowser->insertHtml(format.arg(color.name(), "TX", currentTime) + textData);
     ui->textBrowser->insertPlainText("\n");
 
     if(sb->value() < (sb->maximum() - TEXT_BROWSER_MOUSE_HOVER_THR))

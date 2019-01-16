@@ -64,7 +64,7 @@ void addSequence::on_buttonBox_accepted()
 
         qDebug() << "hex in: " << ui->hexInput->toPlainText();
         qDebug() << "hex byte array: " << sendData;
-        sendHexSeqInfo(ui->hexName->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10));
+        sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10));
     }
     else
     {
