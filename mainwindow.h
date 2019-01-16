@@ -7,6 +7,7 @@
 #include <qlistwidget.h>
 #include "serialseq.h"
 #include <QSerialPort>
+#include <QByteArray>
 
 #define TEXT_BROWSER_MARGIN_IN_PX 20
 #define TEXT_BROWSER_MOUSE_HOVER_THR 100
@@ -41,7 +42,8 @@ public:
     ~MainWindow();
 
 public slots:
-    void addSerialSequence(const QString &, const QString &, int);
+    void addAsciiSequence(const QString &, const QString &, int);
+    void addHexSequence(const QString &, const QByteArray &, int);
     void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity);
     void writeToSerialPort(char *, int);
 

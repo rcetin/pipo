@@ -25,7 +25,8 @@ private slots:
     void on_hexInput_textChanged();
 
 signals:
-    void sendSeqInfo(const QString &, const QString &, int);
+    void sendAsciiSeqInfo(const QString &, const QString &, int);
+    void sendHexSeqInfo(const QString &, const QByteArray &, int);
 
 private:
     Ui::addSequence *ui;

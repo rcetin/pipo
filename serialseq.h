@@ -9,6 +9,7 @@
 #include <QPushButton>
 
 #define MAX_SERIAL_SEQ_COUNT 10
+#define MAX_SENDABLE_DATA_LEN 255
 
 enum serialDataType
 {
@@ -20,10 +21,12 @@ enum serialDataType
 struct serialSequenceElem
 {
     int seqId;  // sequence id
-    QString data;
+    char data[MAX_SENDABLE_DATA_LEN];
+    int dataLen;
     QString seqName;
     int period = 0;
     int status;
+    int type; // Hex, Ascii, Binary
     sequenceSender *sender;
     QPushButton *button;
 };
@@ -32,7 +35,7 @@ class serialSeq
 {
 public:
     serialSeq();
-    void addSeqToList(int id, int period, const QString &seqName, const QString &seqData, QPushButton *button);
+    void addSeqToList(int id, int period, const QString &seqName, char *seqData, int dataLen, QPushButton *button);
     struct serialSequenceElem* findSerialSeq(int seqId);
     void stopAllSequences();
 

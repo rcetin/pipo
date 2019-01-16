@@ -111,7 +111,7 @@ void MainWindow::on_actionStart_triggered()
  *
  * @note This function is used to add serial sequence to memory.
  */
-void MainWindow::addSerialSequence(const QString & seqName, const QString &seqData, int seqPeriod)
+void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqData, int seqPeriod)
 {
     QPushButton *stBut = new QPushButton(this);
     stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
@@ -136,8 +136,40 @@ void MainWindow::addSerialSequence(const QString & seqName, const QString &seqDa
     lData->setToolTip(QString("Data: %1").arg(seqData));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
 
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData, stBut);
+    char data[MAX_SENDABLE_DATA_LEN] = {0};
+    memcpy( data, seqData.toStdString().c_str() ,seqData.size());
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, data, seqData.size(), stBut);
     this->gridLayLastRow++;
+}
+
+void MainWindow::addHexSequence(const QString &, const QByteArray &, int)
+{
+//    QPushButton *stBut = new QPushButton(this);
+//    stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+//    stBut->setFixedSize(QSize(30, 20));
+//    stBut->setProperty("butId", this->gridLayLastRow);
+//    connect(stBut, SIGNAL(clicked(bool)), this, SLOT(on_serialSeqStartButton_clicked()));
+//    ui->gridLayout->addWidget(stBut, this->gridLayLastRow, 0);
+
+//    QFont mono("Ubuntu Mono", 11, QFont::Normal);
+
+//    QLabel *lName = new QLabel("Name: [" + seqName + "]", this);
+//    lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+//    lName->setMinimumWidth(80);
+//    lName->setFont(mono);
+//    lName->setToolTip(QString("Seq Name: %1").arg(seqName));
+//    ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
+
+//    QLabel *lData = new QLabel("Data: " + seqData, this);
+//    lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+//    lData->setMinimumWidth(80);
+//    lData->setFont(mono);
+//    lData->setToolTip(QString("Data: %1").arg(seqData));
+//    ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
+
+//    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData, stBut);
+//    this->gridLayLastRow++;
+
 }
 
 /**
@@ -150,7 +182,7 @@ void MainWindow::on_pushButton_clicked()
 {
     newSerialSeq = new addSequence(this);
     // Connect sequence info to main window function
-    connect(newSerialSeq, SIGNAL(sendSeqInfo(const QString &, const QString &, int)), this, SLOT(addSerialSequence(const QString &, const QString &, int)));
+    connect(newSerialSeq, SIGNAL(sendAsciiSeqInfo(const QString &, const QString &, int)), this, SLOT(addAsciiSequence(const QString &, const QString &, int)));
     newSerialSeq->setModal(true);
     newSerialSeq->exec();
 }
@@ -209,7 +241,7 @@ void MainWindow::on_serialSeqStartButton_clicked()
 
             if(!currentSeq->period)
             {
-                writeToSerialPort((char *) currentSeq->data.toLocal8Bit().constData(), currentSeq->data.size());
+                writeToSerialPort((char *) currentSeq->data, currentSeq->dataLen);
                 return;
             }
             else

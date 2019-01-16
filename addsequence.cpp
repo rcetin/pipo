@@ -53,7 +53,7 @@ void addSequence::on_buttonBox_accepted()
     {
         // Hex input is given.
         QString input = ui->hexInput->toPlainText();
-        QStringList list1 = input.split(" | ");
+        QStringList list1 = input.split(" ");
         QByteArray sendData;
         for(int i = 0; i < list1.size(); i++)
         {
@@ -64,9 +64,13 @@ void addSequence::on_buttonBox_accepted()
 
         qDebug() << "hex in: " << ui->hexInput->toPlainText();
         qDebug() << "hex byte array: " << sendData;
-
+        sendHexSeqInfo(ui->hexName->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10));
     }
-
+    else
+    {
+        // Ascii input is given
+        emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10));
+    }
 
     //emit sendSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10));
 
@@ -76,17 +80,46 @@ void addSequence::on_buttonBox_accepted()
     ui->seq_period->clear();
 }
 
+
 void addSequence::on_hexInput_textChanged()
 {
+    int wrongInput = 0;
+    QTextCursor curs = ui->hexInput->textCursor();
+    int curPos = curs.position();
     QString text = ui->hexInput->toPlainText().toUpper();
-    text.replace(QRegExp("[^0-9A-F]"), "");
+    int sizeTxt = text.size();
+    int spaceCnt = text.count(QLatin1Char(' '));
+    QString lastTxt = text.replace(QRegExp("[^0-9A-F]"), "");
+
+    if((sizeTxt - spaceCnt) > lastTxt.size())
+        wrongInput = 1;
+
     QStringList tokens;
     for(int i = 0; i < text.length(); i += 2) {
       tokens << text.mid(i, 2);
     }
     ui->hexInput->blockSignals(true);
-    ui->hexInput->setText(tokens.join(" | "));
-    ui->hexInput->moveCursor(QTextCursor::EndOfBlock);
+    QString lastStr = tokens.join(" ");
+    ui->hexInput->setText(lastStr);
+    ui->hexInput->moveCursor(QTextCursor::NoMove);
+    if(wrongInput == 0)
+    {
+        if(curPos % 3 == 0)
+        {
+            curPos += 1;
+            curs.setPosition(curPos);
+            ui->hexInput->setTextCursor(curs);
+        }
+        else
+        {
+            curs.setPosition(curPos);
+            ui->hexInput->setTextCursor(curs);
+        }
+    }
+    else
+    {
+        curs.setPosition(curPos - 1);
+        ui->hexInput->setTextCursor(curs);
+    }
     ui->hexInput->blockSignals(false);
-
 }
