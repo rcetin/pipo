@@ -269,7 +269,10 @@ void MainWindow::on_serialSeqStartButton_clicked()
 void MainWindow::createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity)
 {
     if(port == NULL)
-        port = new QSerialPort();
+    {
+        port = new QSerialPort(this);
+        connect(port, &QSerialPort::readyRead, this, &MainWindow::readData);
+    }
 
     port->close();
     if(portConfig.status == OPENED)
@@ -341,8 +344,10 @@ void MainWindow::writeToSerialPort(char *sendSeq, int size, const QString &textD
     ui->textBrowser->insertHtml(format.arg(color.name(), "TX", currentTime) + textData);
     ui->textBrowser->insertPlainText("\n");
 
-    if(sb->value() < (sb->maximum() - TEXT_BROWSER_MOUSE_HOVER_THR))
-        return;
+    // To stay not last line of text browser.
+    // But bcs of ui->textBrowser->moveCursor(QTextCursor::End) can't.
+//    if(sb->value() < (sb->maximum() - TEXT_BROWSER_MOUSE_HOVER_THR))
+//        return;
 
     sb->setValue(sb->maximum());
 }
@@ -353,3 +358,27 @@ void MainWindow::on_actionAbout_triggered()
     QMessageBox msgBox(this);
     msgBox.about(this, "About Pipo", msg);
 }
+
+void MainWindow::readData()
+{
+    if(port == NULL)
+        return;
+
+    if(portConfig.status == CLOSED)
+        return;
+
+    QScrollBar *sb = ui->textBrowser->verticalScrollBar();
+
+    QString currentTime(QDateTime::currentDateTime().toString("hh:mm:ss:zzz"));
+    QString format("<font color=\"%1\"><b>%2 | %3: </b></font>");
+    QColor color("blue");
+
+    const QByteArray data = port->readAll();
+    QString dataStr = QString::fromStdString(data.toStdString());
+    ui->textBrowser->moveCursor(QTextCursor::End);
+    ui->textBrowser->insertHtml(format.arg(color.name(), "RX", currentTime) + dataStr);
+    ui->textBrowser->insertPlainText("\n");
+
+    sb->setValue(sb->maximum());
+}
+

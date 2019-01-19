@@ -49,7 +49,7 @@ public slots:
     void addHexSequence(const QString &, const QString &, const QByteArray &, int);
     void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity);
     void writeToSerialPort(char *, int, const QString &);
-
+    void readData();
 private slots:
 
     void on_actionSerial_Port_triggered();
