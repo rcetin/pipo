@@ -21,6 +21,12 @@ enum portStatus
     CLOSED = 1,
 };
 
+enum textBrowserStatus
+{
+    ASCII = 0,
+    HEX = 1,
+};
+
 struct serialportConf
 {
     QString name;
@@ -61,6 +67,10 @@ private slots:
 
     void on_actionAbout_triggered();
 
+    void on_ascCheck_stateChanged(int arg1);
+
+    void on_hexCheck_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     serialConfig *serialConf = NULL;   // This will add new serial port (Dialog)
@@ -72,6 +82,7 @@ private:
     int topLeftTxtBrowser_y;
     int gridLayLastRow = 0;
     struct serialportConf portConfig;
+    int browserStatus = ASCII;
 };
 
 #endif // MAINWINDOW_H

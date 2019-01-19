@@ -376,9 +376,68 @@ void MainWindow::readData()
     const QByteArray data = port->readAll();
     QString dataStr = QString::fromStdString(data.toStdString());
     ui->textBrowser->moveCursor(QTextCursor::End);
-    ui->textBrowser->insertHtml(format.arg(color.name(), "RX", currentTime) + dataStr);
-    ui->textBrowser->insertPlainText("\n");
+    if(browserStatus == ASCII)
+    {
+        ui->textBrowser->insertHtml(format.arg(color.name(), "RX", currentTime) + dataStr);
+        ui->textBrowser->insertPlainText("\n");
+    }
+    else
+    {
+        QByteArray hexx = data.toHex();
+        hexx = hexx.toUpper();
+        QString hexStr = QString::fromStdString(hexx.toStdString());
+
+        QString hexWithSpaceStr;
+        int j = 0;
+        for(int i = 0; i < hexStr.size(); i++)
+        {
+            hexWithSpaceStr[j] = hexStr[i];
+            j += 1;
+            if((i+1) % 2 == 0)
+            {
+                hexWithSpaceStr[j + 1] = ' ';
+                j = j + 1;
+            }
+        }
+
+        ui->textBrowser->insertHtml(format.arg(color.name(), "RX", currentTime) + hexWithSpaceStr);
+        ui->textBrowser->insertPlainText("\n");
+    }
+
 
     sb->setValue(sb->maximum());
 }
 
+void MainWindow::on_ascCheck_stateChanged(int arg1)
+{
+    if(arg1 == Qt::Checked)
+    {
+        browserStatus = ASCII;
+        ui->hexCheck->setCheckState(Qt::Unchecked);
+    }
+    else
+    {
+        if(ui->hexCheck->isChecked() == false)
+        {
+            ui->ascCheck->setCheckState(Qt::Checked);
+            browserStatus = ASCII;
+        }
+    }
+}
+
+void MainWindow::on_hexCheck_stateChanged(int arg1)
+{
+    if(arg1 == Qt::Checked)
+    {
+        browserStatus = HEX;
+        ui->ascCheck->setCheckState(Qt::Unchecked);
+    }
+    else
+    {
+        if(ui->ascCheck->isChecked() == false)
+        {
+            ui->hexCheck->setCheckState(Qt::Checked);
+            browserStatus = HEX;
+        }
+    }
+}

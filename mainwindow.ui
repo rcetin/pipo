@@ -97,8 +97,11 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>10</pointsize>
-              <italic>true</italic>
+              <family>Ubuntu Mono</family>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
               <underline>false</underline>
              </font>
             </property>
@@ -203,23 +206,78 @@
        </layout>
       </item>
       <item>
-       <widget class="QTextBrowser" name="textBrowser">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>500</width>
-          <height>768</height>
-         </size>
-        </property>
-        <property name="inputMethodHints">
-         <set>Qt::ImhNone</set>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <family>Ubuntu Mono</family>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>TX is automatically converted to data type.</string>
+            </property>
+            <property name="text">
+             <string>RX Browser Status</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="ascCheck">
+            <property name="font">
+             <font>
+              <family>Ubuntu Mono</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>ASCII</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="hexCheck">
+            <property name="font">
+             <font>
+              <family>Ubuntu Mono</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Hex</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTextBrowser" name="textBrowser">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>500</width>
+            <height>768</height>
+           </size>
+          </property>
+          <property name="inputMethodHints">
+           <set>Qt::ImhNone</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -329,7 +387,7 @@
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
  </widget>
