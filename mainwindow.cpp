@@ -349,5 +349,7 @@ void MainWindow::writeToSerialPort(char *sendSeq, int size, const QString &textD
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, "About Pipo", "<b>Created by Ramazan Çetin</b>");
+    QString msg = "Created by rcetin<br><br>https://github.com/rcetin";
+    QMessageBox msgBox(this);
+    msgBox.about(this, "About Pipo", msg);
 }
