@@ -31,7 +31,7 @@ struct serialSequenceElem
     int type; // Hex, Ascii, Binary
     sequenceSender *sender;
     QPushButton *button;
-    QLabel *labelData, *labelName;
+    QLabel *labelData, *labelName, *labelPeriod;
 };
 
 class serialSeq
@@ -39,7 +39,7 @@ class serialSeq
 public:
     serialSeq();
     void editSeq(struct serialSequenceElem *elem, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat);
-    void addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat, QPushButton *button, int type, QLabel *lName, QLabel *lData);
+    void addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat, QPushButton *button, int type, QLabel *lName, QLabel *lData, QLabel *lPeriod);
     struct serialSequenceElem* findSerialSeq(int seqId);
     void stopAllSequences();
 

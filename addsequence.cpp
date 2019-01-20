@@ -46,7 +46,6 @@ addSequence::addSequence(QWidget *parent, serialSequenceElem *elem) :
         curSeqID = elem->seqId;
         ui->tabWidget->setCurrentIndex(SERIAL_SEQ_TYPE_HEX);
     }
-
 }
 
 void addSequence::reject()

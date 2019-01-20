@@ -124,11 +124,16 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
             currentSeq->button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
         }
 
-        currentSeq->labelName->setText("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]");
+        QString format("<font color=\"%1\"><b>[%2]:</b></font>");
+
+        currentSeq->labelName->setText(format.arg("black", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)));
         currentSeq->labelName->setToolTip(QString("Seq Name: %1").arg(seqName));
 
-        currentSeq->labelData->setText("Data: " + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN));
+        currentSeq->labelData->setText("[" + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN) + "]");
         currentSeq->labelData->setToolTip(QString("Data: %1").arg(seqData));
+
+        currentSeq->labelPeriod->setText("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]");
+        currentSeq->labelPeriod->setToolTip(QString("Period: %1").arg(QString::number(seqPeriod, 10)));
 
         char dat[MAX_SENDABLE_DATA_LEN] = {0};
         memcpy( dat, seqData.toStdString().c_str() ,seqData.size());
@@ -153,23 +158,32 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
 
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
 
-    QLabel *lName = new QLabel("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]", this);
+    QString format("<font color=\"%1\"><b>[%2]:</b></font>");
+
+    QLabel *lName = new QLabel(format.arg("black", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)), this);
     lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    lName->setMinimumWidth(80);
+    lName->setMinimumWidth(40);
     lName->setFont(mono);
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
     ui->gridLayout->addWidget(lName, this->gridLayLastRow, 2);
 
-    QLabel *lData = new QLabel("Data: " + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN), this);
+    QLabel *lData = new QLabel("[" + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN) + "]", this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    lData->setMinimumWidth(80);
+    lData->setMinimumWidth(40);
     lData->setFont(mono);
     lData->setToolTip(QString("Data: %1").arg(seqData));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 3);
 
+    QLabel *lPer = new QLabel("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]", this);
+    lPer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    lPer->setMinimumWidth(40);
+    lPer->setFont(mono);
+    lPer->setToolTip(QString("Period: %1").arg(QString::number(seqPeriod, 10)));
+    ui->gridLayout->addWidget(lPer, this->gridLayLastRow, 4);
+
     char data[MAX_SENDABLE_DATA_LEN] = {0};
     memcpy( data, seqData.toStdString().c_str() ,seqData.size());
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, data, seqData.size(), seqData, stBut, SERIAL_SEQ_TYPE_ASCII, lName, lData);
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, data, seqData.size(), seqData, stBut, SERIAL_SEQ_TYPE_ASCII, lName, lData, lPer);
     this->gridLayLastRow++;
 }
 
@@ -185,12 +199,16 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
             currentSeq->status = 0;
             currentSeq->button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
         }
+        QString format("<font color=\"%1\"><b>[%2]:</b></font>");
 
-        currentSeq->labelName->setText("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]");
+        currentSeq->labelName->setText(format.arg("black", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)));
         currentSeq->labelName->setToolTip(QString("Seq Name: %1").arg(seqName));
 
-        currentSeq->labelData->setText("Data: " + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN));
+        currentSeq->labelData->setText("[" + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN) + "]");
         currentSeq->labelData->setToolTip(QString("Data: %1").arg(seqDataAscii));
+
+        currentSeq->labelPeriod->setText("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]");
+        currentSeq->labelPeriod->setToolTip(QString("Period: %1").arg(QString::number(seqPeriod, 10)));
 
         serialseq.editSeq(currentSeq, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii);
         return;
@@ -211,22 +229,30 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
     ui->gridLayout->addWidget(editBut, this->gridLayLastRow, 1);
 
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
+    QString format("<font color=\"%1\"><b>[%2]:</b></font>");
 
-    QLabel *lName = new QLabel("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]", this);
+    QLabel *lName = new QLabel(format.arg("black", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)), this);
     lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    lName->setMinimumWidth(80);
+    lName->setMinimumWidth(40);
     lName->setFont(mono);
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
     ui->gridLayout->addWidget(lName, this->gridLayLastRow, 2);
 
-    QLabel *lData = new QLabel("Data: " + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN), this);
+    QLabel *lData = new QLabel("[" + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN) + "]", this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    lData->setMinimumWidth(80);
+    lData->setMinimumWidth(40);
     lData->setFont(mono);
     lData->setToolTip(QString("Data: %1").arg(seqDataAscii));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 3);
 
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii, stBut, SERIAL_SEQ_TYPE_HEX, lName, lData);
+    QLabel *lPer = new QLabel("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]", this);
+    lPer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    lPer->setMinimumWidth(40);
+    lPer->setFont(mono);
+    lPer->setToolTip(QString("Period: %1").arg(QString::number(seqPeriod, 10)));
+    ui->gridLayout->addWidget(lPer, this->gridLayLastRow, 4);
+
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii, stBut, SERIAL_SEQ_TYPE_HEX, lName, lData, lPer);
     this->gridLayLastRow++;
 
 }
