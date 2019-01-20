@@ -52,7 +52,7 @@ public:
 
 public slots:
     void addAsciiSequence(const QString &, const QString &, int, int, int);
-    void addHexSequence(const QString &, const QString &, const QByteArray &, int);
+    void addHexSequence(const QString &, const QString &, const QByteArray &, int, int, int);
     void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity);
     void writeToSerialPort(char *, int, const QString &);
     void readData();

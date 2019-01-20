@@ -15,7 +15,7 @@
 enum serialDataType
 {
     SERIAL_SEQ_TYPE_ASCII = 0,
-    SERIAL_SEQ_TYPE_HEX,
+    SERIAL_SEQ_TYPE_HEX = 1,
     SERIAL_SEQ_TYPE_BIN,
 };
 

@@ -173,8 +173,29 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
     this->gridLayLastRow++;
 }
 
-void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAscii, const QByteArray &seqData, int seqPeriod)
+void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAscii, const QByteArray &seqData, int seqPeriod, int edit, int seqId)
 {
+    if(edit)
+    {
+        struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
+
+        if(currentSeq->status == 1)
+        {
+            currentSeq->sender->finishWork();
+            currentSeq->status = 0;
+            currentSeq->button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+        }
+
+        currentSeq->labelName->setText("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]");
+        currentSeq->labelName->setToolTip(QString("Seq Name: %1").arg(seqName));
+
+        currentSeq->labelData->setText("Data: " + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN));
+        currentSeq->labelData->setToolTip(QString("Data: %1").arg(seqDataAscii));
+
+        serialseq.editSeq(currentSeq, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii);
+        return;
+    }
+
     QPushButton *stBut = new QPushButton(this);
     stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
     stBut->setFixedSize(QSize(30, 20));
@@ -196,14 +217,14 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
     lName->setMinimumWidth(80);
     lName->setFont(mono);
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
-    ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
+    ui->gridLayout->addWidget(lName, this->gridLayLastRow, 2);
 
     QLabel *lData = new QLabel("Data: " + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN), this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lData->setMinimumWidth(80);
     lData->setFont(mono);
     lData->setToolTip(QString("Data: %1").arg(seqDataAscii));
-    ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
+    ui->gridLayout->addWidget(lData, this->gridLayLastRow, 3);
 
     this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii, stBut, SERIAL_SEQ_TYPE_HEX, lName, lData);
     this->gridLayLastRow++;
@@ -221,7 +242,7 @@ void MainWindow::on_pushButton_clicked()
     newSerialSeq = new addSequence(this);
     // Connect sequence info to main window function
     connect(newSerialSeq, SIGNAL(sendAsciiSeqInfo(const QString &, const QString &, int, int, int)), this, SLOT(addAsciiSequence(const QString &, const QString &, int, int, int)));
-    connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QString &, const QByteArray&, int)), this, SLOT(addHexSequence(const QString &, const QString &, const QByteArray&, int)));
+    connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QString &, const QByteArray&, int, int, int)), this, SLOT(addHexSequence(const QString &, const QString &, const QByteArray&, int, int, int)));
     newSerialSeq->setModal(true);
     newSerialSeq->exec();
 }
@@ -318,7 +339,7 @@ void MainWindow::on_seq_edit_but_clicked()
 
             newSerialSeq = new addSequence(this, currentSeq);
             connect(newSerialSeq, SIGNAL(sendAsciiSeqInfo(const QString &, const QString &, int, int, int)), this, SLOT(addAsciiSequence(const QString &, const QString &, int, int, int)));
-            //connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QString &, const QByteArray&, int)), this, SLOT(addHexSequence(const QString &, const QString &, const QByteArray&, int)));
+            connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QString &, const QByteArray&, int, int, int)), this, SLOT(addHexSequence(const QString &, const QString &, const QByteArray&, int, int, int)));
 
             newSerialSeq->setModal(true);
             newSerialSeq->exec();

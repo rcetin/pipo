@@ -29,7 +29,7 @@ private slots:
 
 signals:
     void sendAsciiSeqInfo(const QString &, const QString &, int, int, int);
-    void sendHexSeqInfo(const QString &, const QString &, const QByteArray &, int);
+    void sendHexSeqInfo(const QString &, const QString &, const QByteArray &, int, int, int);
 
 private:
     Ui::addSequence *ui;

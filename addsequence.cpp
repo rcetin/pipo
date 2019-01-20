@@ -30,6 +30,21 @@ addSequence::addSequence(QWidget *parent, serialSequenceElem *elem) :
         }
         editFlag = 1;
         curSeqID = elem->seqId;
+        ui->tabWidget->setCurrentIndex(SERIAL_SEQ_TYPE_ASCII);
+    }
+
+    if(elem->type == SERIAL_SEQ_TYPE_HEX)
+    {
+        ui->hexName->setText(elem->seqName);
+        ui->hexInput->setText(elem->textData);
+        if(elem->period)
+        {
+            ui->hexPeriod->setText(QString::number(elem->period, 10));
+            ui->hexGroup->setChecked(true);
+        }
+        editFlag = 1;
+        curSeqID = elem->seqId;
+        ui->tabWidget->setCurrentIndex(SERIAL_SEQ_TYPE_HEX);
     }
 
 }
@@ -91,7 +106,7 @@ void addSequence::on_buttonBox_accepted()
 
         qDebug() << "hex in: " << ui->hexInput->toPlainText();
         qDebug() << "hex byte array: " << sendData;
-        emit sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10));
+        emit sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10), editFlag, curSeqID);
     }
     else
     {
