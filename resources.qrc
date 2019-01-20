@@ -8,5 +8,6 @@
         <file>img/add_new_seq.ico</file>
         <file>img/sequence_stop_but.png</file>
         <file>img/edit_seq_but.png</file>
+        <file>img/clear_text_brw.png</file>
     </qresource>
 </RCC>

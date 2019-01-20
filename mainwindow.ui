@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>868</width>
-    <height>895</height>
+    <width>870</width>
+    <height>927</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -208,7 +208,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0,0">
           <item>
            <widget class="QLabel" name="label_2">
             <property name="font">
@@ -256,6 +256,26 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="ckearTextBrw">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Clear Text Browser&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/rec/img/clear_text_brw.png</normaloff>:/rec/img/clear_text_brw.png</iconset>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -288,7 +308,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>868</width>
+     <width>870</width>
      <height>20</height>
     </rect>
    </property>

@@ -565,3 +565,8 @@ void MainWindow::on_hexCheck_stateChanged(int arg1)
         }
     }
 }
+
+void MainWindow::on_ckearTextBrw_clicked()
+{
+    ui->textBrowser->clear();
+}
