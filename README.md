@@ -2,6 +2,8 @@
 
 **Pipo** is serial port application. It is designed to facilitate serial port monitoring. Also, it can automate sending sequences.
 
+![Alt-text](https://github.com/rcetin/pipo/blob/master/misc/pipo_ss.png)
+
 # Build
 To build application, you need **qmake**. 
 
