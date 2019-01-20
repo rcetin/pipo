@@ -201,7 +201,7 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
         }
         QString format("<font color=\"%1\"><b>[%2]:</b></font>");
 
-        currentSeq->labelName->setText(format.arg("black", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)));
+        currentSeq->labelName->setText(format.arg("red", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)));
         currentSeq->labelName->setToolTip(QString("Seq Name: %1").arg(seqName));
 
         currentSeq->labelData->setText("[" + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN) + "]");
@@ -231,7 +231,7 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
     QString format("<font color=\"%1\"><b>[%2]:</b></font>");
 
-    QLabel *lName = new QLabel(format.arg("black", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)), this);
+    QLabel *lName = new QLabel(format.arg("red", seqName.left(MAX_VISIBLE_SEQ_DATA_LEN)), this);
     lName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lName->setMinimumWidth(40);
     lName->setFont(mono);
