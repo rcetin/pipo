@@ -74,6 +74,8 @@ private slots:
 
     void on_ckearTextBrw_clicked();
 
+    void on_saveBrwToFile_clicked();
+
 private:
     Ui::MainWindow *ui;
     serialConfig *serialConf = NULL;   // This will add new serial port (Dialog)

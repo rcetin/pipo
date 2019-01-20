@@ -17,6 +17,8 @@
 #include <QMessageBox>
 #include "sequencesender.h"
 #include <QDateTime>
+#include <QFileDialog>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -569,4 +571,10 @@ void MainWindow::on_hexCheck_stateChanged(int arg1)
 void MainWindow::on_ckearTextBrw_clicked()
 {
     ui->textBrowser->clear();
+}
+
+void MainWindow::on_saveBrwToFile_clicked()
+{
+    QString file_path = QFileDialog::getOpenFileName(this, "Select File to Save", QDir::homePath());
+    qDebug() << "save file path: " << file_path;
 }
