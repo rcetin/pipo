@@ -119,7 +119,7 @@
         </widget>
        </item>
        <item row="3" column="0" colspan="2">
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="ascGroup">
          <property name="title">
           <string>Periodic Se&amp;quence (ms)</string>
          </property>
@@ -194,7 +194,7 @@
         </widget>
        </item>
        <item row="3" column="0" colspan="2">
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="hexGroup">
          <property name="title">
           <string>Periodic Se&amp;quence (ms)</string>
          </property>

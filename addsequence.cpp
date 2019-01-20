@@ -11,6 +11,27 @@ addSequence::addSequence(QWidget *parent) :
     ui(new Ui::addSequence)
 {
     ui->setupUi(this);
+    editFlag = 0;
+}
+
+addSequence::addSequence(QWidget *parent, serialSequenceElem *elem) :
+    QDialog(parent),
+    ui(new Ui::addSequence)
+{
+    ui->setupUi(this);
+    if(elem->type == SERIAL_SEQ_TYPE_ASCII)
+    {
+        ui->seqName->setText(elem->seqName);
+        ui->seqData->setText(elem->textData);
+        if(elem->period)
+        {
+            ui->seq_period->setText(QString::number(elem->period, 10));
+            ui->ascGroup->setChecked(true);
+        }
+        editFlag = 1;
+        curSeqID = elem->seqId;
+    }
+
 }
 
 void addSequence::reject()
@@ -70,12 +91,12 @@ void addSequence::on_buttonBox_accepted()
 
         qDebug() << "hex in: " << ui->hexInput->toPlainText();
         qDebug() << "hex byte array: " << sendData;
-        sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10));
+        emit sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10));
     }
     else
     {
         // Ascii input is given
-        emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10));
+        emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10), editFlag, curSeqID);
     }
 }
 

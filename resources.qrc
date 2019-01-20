@@ -7,5 +7,6 @@
         <file>img/quit.png</file>
         <file>img/add_new_seq.ico</file>
         <file>img/sequence_stop_but.png</file>
+        <file>img/edit_seq_but.png</file>
     </qresource>
 </RCC>

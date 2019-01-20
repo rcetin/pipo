@@ -7,6 +7,7 @@
 #include <QTextBrowser>
 #include "sequencesender.h"
 #include <QPushButton>
+#include <QLabel>
 
 #define MAX_SERIAL_SEQ_COUNT 10
 #define MAX_SENDABLE_DATA_LEN 255
@@ -30,13 +31,15 @@ struct serialSequenceElem
     int type; // Hex, Ascii, Binary
     sequenceSender *sender;
     QPushButton *button;
+    QLabel *labelData, *labelName;
 };
 
 class serialSeq
 {
 public:
     serialSeq();
-    void addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat, QPushButton *button);
+    void editSeq(struct serialSequenceElem *elem, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat);
+    void addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat, QPushButton *button, int type, QLabel *lName, QLabel *lData);
     struct serialSequenceElem* findSerialSeq(int seqId);
     void stopAllSequences();
 

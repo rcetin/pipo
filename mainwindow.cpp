@@ -111,14 +111,45 @@ void MainWindow::on_actionStart_triggered()
  *
  * @note This function is used to add serial sequence to memory.
  */
-void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqData, int seqPeriod)
+void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqData, int seqPeriod, int edit, int seqId)
 {
+    if(edit)
+    {
+        struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
+
+        if(currentSeq->status == 1)
+        {
+            currentSeq->sender->finishWork();
+            currentSeq->status = 0;
+            currentSeq->button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+        }
+
+        currentSeq->labelName->setText("Name: [" + seqName.left(MAX_VISIBLE_SEQ_NAME_LEN) + "]");
+        currentSeq->labelName->setToolTip(QString("Seq Name: %1").arg(seqName));
+
+        currentSeq->labelData->setText("Data: " + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN));
+        currentSeq->labelData->setToolTip(QString("Data: %1").arg(seqData));
+
+        char dat[MAX_SENDABLE_DATA_LEN] = {0};
+        memcpy( dat, seqData.toStdString().c_str() ,seqData.size());
+
+        serialseq.editSeq(currentSeq, seqPeriod, seqName, dat, seqData.size(), seqData);
+        return;
+    }
+
     QPushButton *stBut = new QPushButton(this);
     stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
     stBut->setFixedSize(QSize(30, 20));
     stBut->setProperty("butId", this->gridLayLastRow);
     connect(stBut, SIGNAL(clicked(bool)), this, SLOT(on_serialSeqStartButton_clicked()));
     ui->gridLayout->addWidget(stBut, this->gridLayLastRow, 0);
+
+    QPushButton *editBut = new QPushButton(this);
+    editBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/edit_seq_but.png"));
+    editBut->setFixedSize(QSize(30, 20));
+    editBut->setProperty("butId", this->gridLayLastRow);
+    connect(editBut, SIGNAL(clicked(bool)), this, SLOT(on_seq_edit_but_clicked()));
+    ui->gridLayout->addWidget(editBut, this->gridLayLastRow, 1);
 
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
 
@@ -127,18 +158,18 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
     lName->setMinimumWidth(80);
     lName->setFont(mono);
     lName->setToolTip(QString("Seq Name: %1").arg(seqName));
-    ui->gridLayout->addWidget(lName, this->gridLayLastRow, 1);
+    ui->gridLayout->addWidget(lName, this->gridLayLastRow, 2);
 
     QLabel *lData = new QLabel("Data: " + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN), this);
     lData->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lData->setMinimumWidth(80);
     lData->setFont(mono);
     lData->setToolTip(QString("Data: %1").arg(seqData));
-    ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
+    ui->gridLayout->addWidget(lData, this->gridLayLastRow, 3);
 
     char data[MAX_SENDABLE_DATA_LEN] = {0};
     memcpy( data, seqData.toStdString().c_str() ,seqData.size());
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, data, seqData.size(), seqData, stBut);
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, data, seqData.size(), seqData, stBut, SERIAL_SEQ_TYPE_ASCII, lName, lData);
     this->gridLayLastRow++;
 }
 
@@ -150,6 +181,13 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
     stBut->setProperty("butId", this->gridLayLastRow);
     connect(stBut, SIGNAL(clicked(bool)), this, SLOT(on_serialSeqStartButton_clicked()));
     ui->gridLayout->addWidget(stBut, this->gridLayLastRow, 0);
+
+    QPushButton *editBut = new QPushButton(this);
+    editBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/edit_seq_but.png"));
+    editBut->setFixedSize(QSize(30, 20));
+    editBut->setProperty("butId", this->gridLayLastRow);
+    connect(editBut, SIGNAL(clicked(bool)), this, SLOT(on_seq_edit_but_clicked()));
+    ui->gridLayout->addWidget(editBut, this->gridLayLastRow, 1);
 
     QFont mono("Ubuntu Mono", 11, QFont::Normal);
 
@@ -167,7 +205,7 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
     lData->setToolTip(QString("Data: %1").arg(seqDataAscii));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 2);
 
-    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii, stBut);
+    this->serialseq.addSeqToList(this->gridLayLastRow, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii, stBut, SERIAL_SEQ_TYPE_HEX, lName, lData);
     this->gridLayLastRow++;
 
 }
@@ -182,7 +220,7 @@ void MainWindow::on_pushButton_clicked()
 {
     newSerialSeq = new addSequence(this);
     // Connect sequence info to main window function
-    connect(newSerialSeq, SIGNAL(sendAsciiSeqInfo(const QString &, const QString &, int)), this, SLOT(addAsciiSequence(const QString &, const QString &, int)));
+    connect(newSerialSeq, SIGNAL(sendAsciiSeqInfo(const QString &, const QString &, int, int, int)), this, SLOT(addAsciiSequence(const QString &, const QString &, int, int, int)));
     connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QString &, const QByteArray&, int)), this, SLOT(addHexSequence(const QString &, const QString &, const QByteArray&, int)));
     newSerialSeq->setModal(true);
     newSerialSeq->exec();
@@ -263,6 +301,28 @@ void MainWindow::on_serialSeqStartButton_clicked()
             qDebug() << "curSeq Index: " << currentSeq->seqId << ", data: " << currentSeq->data << "period: " << currentSeq->period;
         }
 
+    }
+}
+
+void MainWindow::on_seq_edit_but_clicked()
+{
+    QPushButton* clickedButton = qobject_cast< QPushButton* >( sender() );
+    if(clickedButton)
+    {
+        QVariant propertyV = sender()->property("butId");
+        if (propertyV.isValid()) {
+            int seqId = propertyV.toInt();
+            qDebug() << "clickedButtonId: " << seqId;
+            struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
+
+
+            newSerialSeq = new addSequence(this, currentSeq);
+            connect(newSerialSeq, SIGNAL(sendAsciiSeqInfo(const QString &, const QString &, int, int, int)), this, SLOT(addAsciiSequence(const QString &, const QString &, int, int, int)));
+            //connect(newSerialSeq, SIGNAL(sendHexSeqInfo(const QString &, const QString &, const QByteArray&, int)), this, SLOT(addHexSequence(const QString &, const QString &, const QByteArray&, int)));
+
+            newSerialSeq->setModal(true);
+            newSerialSeq->exec();
+        }
     }
 }
 

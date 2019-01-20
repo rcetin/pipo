@@ -51,7 +51,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void addAsciiSequence(const QString &, const QString &, int);
+    void addAsciiSequence(const QString &, const QString &, int, int, int);
     void addHexSequence(const QString &, const QString &, const QByteArray &, int);
     void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity);
     void writeToSerialPort(char *, int, const QString &);
@@ -64,7 +64,7 @@ private slots:
     void on_pushButton_clicked();
     void on_serialSeqStartButton_clicked();
     void on_actionStop_triggered();
-
+    void on_seq_edit_but_clicked();
     void on_actionAbout_triggered();
 
     void on_ascCheck_stateChanged(int arg1);
