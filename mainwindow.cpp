@@ -132,7 +132,10 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
         currentSeq->labelData->setText("[" + seqData.left(MAX_VISIBLE_SEQ_DATA_LEN) + "]");
         currentSeq->labelData->setToolTip(QString("Data: %1").arg(seqData));
 
-        currentSeq->labelPeriod->setText("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]");
+        if(seqPeriod)
+            currentSeq->labelPeriod->setText("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]");
+        else
+            currentSeq->labelPeriod->setText("[N/A]");
         currentSeq->labelPeriod->setToolTip(QString("Period: %1").arg(QString::number(seqPeriod, 10)));
 
         char dat[MAX_SENDABLE_DATA_LEN] = {0};
@@ -174,7 +177,12 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
     lData->setToolTip(QString("Data: %1").arg(seqData));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 3);
 
-    QLabel *lPer = new QLabel("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]", this);
+    QLabel *lPer;
+
+    if(seqPeriod)
+        lPer = new QLabel("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]", this);
+    else
+        lPer = new QLabel("[N/A]", this);
     lPer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lPer->setMinimumWidth(40);
     lPer->setFont(mono);
@@ -207,7 +215,10 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
         currentSeq->labelData->setText("[" + seqDataAscii.left(MAX_VISIBLE_SEQ_DATA_LEN) + "]");
         currentSeq->labelData->setToolTip(QString("Data: %1").arg(seqDataAscii));
 
-        currentSeq->labelPeriod->setText("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]");
+        if(seqPeriod)
+            currentSeq->labelPeriod->setText("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]");
+        else
+            currentSeq->labelPeriod->setText("[N/A]");
         currentSeq->labelPeriod->setToolTip(QString("Period: %1").arg(QString::number(seqPeriod, 10)));
 
         serialseq.editSeq(currentSeq, seqPeriod, seqName, seqData.data(), seqData.size(), seqDataAscii);
@@ -245,7 +256,13 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
     lData->setToolTip(QString("Data: %1").arg(seqDataAscii));
     ui->gridLayout->addWidget(lData, this->gridLayLastRow, 3);
 
-    QLabel *lPer = new QLabel("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]", this);
+    QLabel *lPer;
+
+    if(seqPeriod)
+        lPer = new QLabel("[" + QString::number(seqPeriod, 10).left(MAX_VISIBLE_SEQ_PER_LEN) + "]", this);
+    else
+        lPer = new QLabel("[N/A]", this);
+
     lPer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     lPer->setMinimumWidth(40);
     lPer->setFont(mono);

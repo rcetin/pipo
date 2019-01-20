@@ -82,7 +82,7 @@ void addSequence::on_buttonBox_accepted()
            this->serSeqParamErr = 1;
            return;
     }
-
+    int period;
     // Now just hex or string data is written.
     if(ui->hexInput->toPlainText() != NULL)
     {
@@ -103,14 +103,14 @@ void addSequence::on_buttonBox_accepted()
             return;
         }
 
-        qDebug() << "hex in: " << ui->hexInput->toPlainText();
-        qDebug() << "hex byte array: " << sendData;
-        emit sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, ui->hexPeriod->toPlainText().toInt(0, 10), editFlag, curSeqID);
+        period = (ui->hexGroup->isChecked()) ? ui->hexPeriod->toPlainText().toInt(0, 10) : 0;
+        emit sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, period, editFlag, curSeqID);
     }
     else
     {
         // Ascii input is given
-        emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), ui->seq_period->toPlainText().toInt(0, 10), editFlag, curSeqID);
+        period = (ui->ascGroup->isChecked()) ? ui->seq_period->toPlainText().toInt(0, 10) : 0;
+        emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), period, editFlag, curSeqID);
     }
 }
 
