@@ -628,11 +628,15 @@ void MainWindow::on_saveBrwToFile_clicked()
     {
         saveToFileFlag = 0;
         ui->saveBrwToFile->setChecked(false);
-        file->close();
-        delete file;
-        delete outStream;
-        file = NULL;
-        outStream = NULL;
+
+        if(saveToFileFlag == 1)
+        {
+            file->close();
+            delete file;
+            delete outStream;
+            file = NULL;
+            outStream = NULL;
+        }
     }
 
     qDebug() << "save file path: " << saveToFilePath;
