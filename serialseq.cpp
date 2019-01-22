@@ -7,7 +7,7 @@ serialSeq::serialSeq()
 
 }
 
-void serialSeq::addSeqToList(int id, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat, QPushButton *button, int type, QLabel *lName, QLabel *lData, QLabel *lPeriod)
+void serialSeq::addSeqToList(int id, int period, int sendCount, const QString &seqName, const char *seqData, int dataLen, const QString &textDat, QPushButton *button, int type, QLabel *lName, QLabel *lData, QLabel *lPeriod)
 {
     struct serialSequenceElem seq;
     seq.seqId = id;
@@ -15,6 +15,7 @@ void serialSeq::addSeqToList(int id, int period, const QString &seqName, const c
     seq.dataLen = dataLen;
     seq.seqName = seqName;
     seq.period = period;
+    seq.sendCount = sendCount;
     seq.status = 0;
     seq.sender = NULL;
     seq.button = button;
@@ -43,13 +44,14 @@ struct serialSequenceElem* serialSeq::findSerialSeq(int seqId)
     return NULL;
 }
 
-void serialSeq::editSeq(struct serialSequenceElem *elem, int period, const QString &seqName, const char *seqData, int dataLen, const QString &textDat)
+void serialSeq::editSeq(struct serialSequenceElem *elem, int period, int sendCount, const QString &seqName, const char *seqData, int dataLen, const QString &textDat)
 {
     elem->period = period;
     elem->seqName = seqName;
     memcpy(elem->data, seqData, dataLen);
     elem->dataLen = dataLen;
     elem->textData = textDat;
+    elem->sendCount = sendCount;
 }
 
 /**

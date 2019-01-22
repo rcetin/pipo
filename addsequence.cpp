@@ -28,6 +28,12 @@ addSequence::addSequence(QWidget *parent, serialSequenceElem *elem) :
             ui->seq_period->setText(QString::number(elem->period, 10));
             ui->ascGroup->setChecked(true);
         }
+        if(elem->sendCount)
+        {
+            ui->sendCount->setText(QString::number(elem->sendCount, 10));
+            ui->ascGroup->setChecked(true);
+        }
+
         editFlag = 1;
         curSeqID = elem->seqId;
         ui->tabWidget->setCurrentIndex(SERIAL_SEQ_TYPE_ASCII);
@@ -42,6 +48,12 @@ addSequence::addSequence(QWidget *parent, serialSequenceElem *elem) :
             ui->hexPeriod->setText(QString::number(elem->period, 10));
             ui->hexGroup->setChecked(true);
         }
+        if(elem->sendCount)
+        {
+            ui->sendCountHex->setText(QString::number(elem->sendCount, 10));
+            ui->ascGroup->setChecked(true);
+        }
+
         editFlag = 1;
         curSeqID = elem->seqId;
         ui->tabWidget->setCurrentIndex(SERIAL_SEQ_TYPE_HEX);
@@ -82,7 +94,7 @@ void addSequence::on_buttonBox_accepted()
            this->serSeqParamErr = 1;
            return;
     }
-    int period;
+    int period, sendCount;
     // Now just hex or string data is written.
     if(ui->hexInput->toPlainText() != NULL)
     {
@@ -104,13 +116,15 @@ void addSequence::on_buttonBox_accepted()
         }
 
         period = (ui->hexGroup->isChecked()) ? ui->hexPeriod->toPlainText().toInt(0, 10) : 0;
-        emit sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, period, editFlag, curSeqID);
+        sendCount = (ui->hexGroup->isChecked()) ? ui->sendCountHex->toPlainText().toInt(0, 10) : 0;
+        emit sendHexSeqInfo(ui->hexName->toPlainText(), ui->hexInput->toPlainText(), sendData, period, sendCount, editFlag, curSeqID);
     }
     else
     {
         // Ascii input is given
         period = (ui->ascGroup->isChecked()) ? ui->seq_period->toPlainText().toInt(0, 10) : 0;
-        emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), period, editFlag, curSeqID);
+        sendCount = (ui->ascGroup->isChecked()) ? ui->sendCount->toPlainText().toInt(0, 10) : 0;
+        emit sendAsciiSeqInfo(ui->seqName->toPlainText(), ui->seqData->toPlainText(), period, sendCount, editFlag, curSeqID);
     }
 }
 

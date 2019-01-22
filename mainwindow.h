@@ -53,11 +53,13 @@ public:
     ~MainWindow();
 
 public slots:
-    void addAsciiSequence(const QString &, const QString &, int, int, int);
-    void addHexSequence(const QString &, const QString &, const QByteArray &, int, int, int);
+    void addAsciiSequence(const QString &, const QString &, int, int, int, int);
+    void addHexSequence(const QString &, const QString &, const QByteArray &, int, int, int, int);
     void createNewSerialPort(const QString portName, int baudRate, int dataBits, int stopBits, int parity);
     void writeToSerialPort(char *, int, const QString &);
     void readData();
+    void finishCountProcess(int);
+
 private slots:
 
     void on_actionSerial_Port_triggered();
