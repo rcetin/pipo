@@ -8,6 +8,7 @@
 #include "serialseq.h"
 #include <QSerialPort>
 #include <QByteArray>
+#include <QFile>
 
 #define TEXT_BROWSER_MARGIN_IN_PX 20
 #define TEXT_BROWSER_MOUSE_HOVER_THR 100
@@ -88,6 +89,11 @@ private:
     int gridLayLastRow = 0;
     struct serialportConf portConfig;
     int browserStatus = ASCII;
+
+    int saveToFileFlag = 0; // Save to file flag
+    QString saveToFilePath;
+    QFile *file;    // pointer to save file.
+    QTextStream *outStream; // Out stream to file
 };
 
 #endif // MAINWINDOW_H

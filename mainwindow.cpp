@@ -470,6 +470,12 @@ void MainWindow::writeToSerialPort(char *sendSeq, int size, const QString &textD
     ui->textBrowser->insertHtml(format.arg(color.name(), "TX", currentTime) + textData);
     ui->textBrowser->insertPlainText("\n");
 
+    if((saveToFileFlag == 1) && (saveToFilePath != NULL))
+    {
+        // Save out to file
+        QString fileData("%1 | %2: %3");
+        *outStream << fileData.arg("TX", currentTime, textData) << endl;
+    }
     // To stay not last line of text browser.
     // But bcs of ui->textBrowser->moveCursor(QTextCursor::End) can't.
 //    if(sb->value() < (sb->maximum() - TEXT_BROWSER_MOUSE_HOVER_THR))
@@ -506,6 +512,14 @@ void MainWindow::readData()
     {
         ui->textBrowser->insertHtml(format.arg(color.name(), "RX", currentTime) + dataStr);
         ui->textBrowser->insertPlainText("\n");
+
+        if((saveToFileFlag == 1) && (saveToFilePath != NULL))
+        {
+            // Save out to file
+            QString fileData("%1 | %2: %3");
+            *outStream << fileData.arg("RX", currentTime, dataStr) << endl;
+        }
+
     }
     else
     {
@@ -528,6 +542,14 @@ void MainWindow::readData()
 
         ui->textBrowser->insertHtml(format.arg(color.name(), "RX", currentTime) + hexWithSpaceStr);
         ui->textBrowser->insertPlainText("\n");
+
+
+        if((saveToFileFlag == 1) && (saveToFilePath != NULL))
+        {
+            // Save out to file
+            QString fileData("%1 | %2: %3");
+            *outStream << fileData.arg("RX", currentTime, hexWithSpaceStr) << endl;
+        }
     }
 
 
@@ -575,6 +597,35 @@ void MainWindow::on_ckearTextBrw_clicked()
 
 void MainWindow::on_saveBrwToFile_clicked()
 {
-    QString file_path = QFileDialog::getOpenFileName(this, "Select File to Save", QDir::homePath());
-    qDebug() << "save file path: " << file_path;
+    if(ui->saveBrwToFile->isChecked())
+        saveToFilePath = QFileDialog::getOpenFileName(this, "Select File to Save", QDir::homePath());
+
+    if((saveToFilePath != NULL) && (saveToFileFlag == 0))
+    {
+        // First time file is selected. Open file and start recording.
+        file = new QFile(saveToFilePath);
+        if(file->open(QIODevice::WriteOnly))
+            outStream = new QTextStream(file);
+        else
+        {
+            qDebug() << "file can not be opened. File: " << saveToFilePath;
+            return;
+        }
+
+        saveToFileFlag = 1;
+        ui->saveBrwToFile->setChecked(true);
+
+    }
+    else
+    {
+        saveToFileFlag = 0;
+        ui->saveBrwToFile->setChecked(false);
+        file->close();
+        delete file;
+        delete outStream;
+        file = NULL;
+        outStream = NULL;
+    }
+
+    qDebug() << "save file path: " << saveToFilePath;
 }
