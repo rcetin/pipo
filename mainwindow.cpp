@@ -84,7 +84,7 @@ void MainWindow::on_actionStart_triggered()
     }
 
     int ret = this->port->open(QIODevice::ReadWrite);
-    qDebug() << "port open retval: " << ret << " name: " << port->portName() << "isope:" << port->isOpen();
+    //qDebug() << "port open retval: " << ret << " name: " << port->portName() << "isope:" << port->isOpen();
 
     if(ret == false)
     {
@@ -306,7 +306,6 @@ void MainWindow::on_serialSeqStartButton_clicked()
         return;
     }
 
-    qDebug() << "Serial sequence start button is clicked!" ;
     QPushButton* clickedButton = qobject_cast< QPushButton* >( sender() );
     if ( clickedButton )
     {
@@ -332,7 +331,6 @@ void MainWindow::on_serialSeqStartButton_clicked()
         QVariant propertyV = sender()->property("butId");
         if (propertyV.isValid()) {
             int seqId = propertyV.toInt();
-            qDebug() << "clickedButtonId: " << seqId;
             struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
 
             if(currentSeq->status == 1)
@@ -362,10 +360,7 @@ void MainWindow::on_serialSeqStartButton_clicked()
             }
             clickedButton->setIcon(QIcon(":/rec/img/sequence_stop_but.png"));
             currentSeq->status = 1;
-
-            qDebug() << "curSeq Index: " << currentSeq->seqId << ", data: " << currentSeq->data << "period: " << currentSeq->period;
         }
-
     }
 }
 
@@ -377,7 +372,6 @@ void MainWindow::on_seq_edit_but_clicked()
         QVariant propertyV = sender()->property("butId");
         if (propertyV.isValid()) {
             int seqId = propertyV.toInt();
-            qDebug() << "clickedButtonId: " << seqId;
             struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
 
 
@@ -638,6 +632,4 @@ void MainWindow::on_saveBrwToFile_clicked()
             outStream = NULL;
         }
     }
-
-    qDebug() << "save file path: " << saveToFilePath;
 }

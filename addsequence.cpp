@@ -62,7 +62,6 @@ addSequence::addSequence(QWidget *parent, serialSequenceElem *elem) :
 
 void addSequence::reject()
 {
-    qDebug() << "Here!";
     if (this->serSeqParamErr == 1)
     {
         //event->ignore(); // keep window
