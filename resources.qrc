@@ -10,5 +10,6 @@
         <file>img/edit_seq_but.png</file>
         <file>img/clear_text_brw.png</file>
         <file>img/save_to_file.png</file>
+        <file>img/st_seq.png</file>
     </qresource>
 </RCC>

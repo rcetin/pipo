@@ -123,7 +123,7 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
         {
             currentSeq->sender->finishWork();
             currentSeq->status = 0;
-            currentSeq->button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+            currentSeq->button->setIcon(QIcon(":/rec/img/st_seq.png"));
         }
 
         QString format("<font color=\"%1\"><b>[%2]:</b></font>");
@@ -148,14 +148,14 @@ void MainWindow::addAsciiSequence(const QString & seqName, const QString &seqDat
     }
 
     QPushButton *stBut = new QPushButton(this);
-    stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+    stBut->setIcon(QIcon(":/rec/img/st_seq.png"));
     stBut->setFixedSize(QSize(30, 20));
     stBut->setProperty("butId", this->gridLayLastRow);
     connect(stBut, SIGNAL(clicked(bool)), this, SLOT(on_serialSeqStartButton_clicked()));
     ui->gridLayout->addWidget(stBut, this->gridLayLastRow, 0);
 
     QPushButton *editBut = new QPushButton(this);
-    editBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/edit_seq_but.png"));
+    editBut->setIcon(QIcon(":/rec/img/edit_seq_but.png"));
     editBut->setFixedSize(QSize(30, 20));
     editBut->setProperty("butId", this->gridLayLastRow);
     connect(editBut, SIGNAL(clicked(bool)), this, SLOT(on_seq_edit_but_clicked()));
@@ -207,7 +207,7 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
         {
             currentSeq->sender->finishWork();
             currentSeq->status = 0;
-            currentSeq->button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+            currentSeq->button->setIcon(QIcon(":/rec/img/st_seq.png"));
         }
         QString format("<font color=\"%1\"><b>[%2]:</b></font>");
 
@@ -228,14 +228,14 @@ void MainWindow::addHexSequence(const QString &seqName, const QString &seqDataAs
     }
 
     QPushButton *stBut = new QPushButton(this);
-    stBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+    stBut->setIcon(QIcon(":/rec/img/st_seq.png"));
     stBut->setFixedSize(QSize(30, 20));
     stBut->setProperty("butId", this->gridLayLastRow);
     connect(stBut, SIGNAL(clicked(bool)), this, SLOT(on_serialSeqStartButton_clicked()));
     ui->gridLayout->addWidget(stBut, this->gridLayLastRow, 0);
 
     QPushButton *editBut = new QPushButton(this);
-    editBut->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/edit_seq_but.png"));
+    editBut->setIcon(QIcon(":/rec/img/edit_seq_but.png"));
     editBut->setFixedSize(QSize(30, 20));
     editBut->setProperty("butId", this->gridLayLastRow);
     connect(editBut, SIGNAL(clicked(bool)), this, SLOT(on_seq_edit_but_clicked()));
@@ -339,7 +339,7 @@ void MainWindow::on_serialSeqStartButton_clicked()
             {
                 currentSeq->sender->finishWork();
                 currentSeq->status = 0;
-                clickedButton->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+                clickedButton->setIcon(QIcon(":/rec/img/st_seq.png"));
                 return;
             }
 
@@ -360,7 +360,7 @@ void MainWindow::on_serialSeqStartButton_clicked()
                 sender->moveToThread(testThread);
                 testThread->start();
             }
-            clickedButton->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/sequence_stop_but.png"));
+            clickedButton->setIcon(QIcon(":/rec/img/sequence_stop_but.png"));
             currentSeq->status = 1;
 
             qDebug() << "curSeq Index: " << currentSeq->seqId << ", data: " << currentSeq->data << "period: " << currentSeq->period;
@@ -560,7 +560,7 @@ void MainWindow::finishCountProcess(int seqId)
     struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
 
     currentSeq->status = 0;
-    currentSeq->button->setIcon(QIcon("/home/rcetin/workspace/qt_projects/pipo/img/st_seq.png"));
+    currentSeq->button->setIcon(QIcon("://img/st_seq.png"));
 
 }
 
