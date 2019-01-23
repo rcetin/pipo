@@ -554,7 +554,7 @@ void MainWindow::finishCountProcess(int seqId)
     struct serialSequenceElem *currentSeq = this->serialseq.findSerialSeq(seqId);
 
     currentSeq->status = 0;
-    currentSeq->button->setIcon(QIcon("://img/st_seq.png"));
+    currentSeq->button->setIcon(QIcon(":/rec/img/st_seq.png"));
 
 }
 
