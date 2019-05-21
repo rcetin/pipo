@@ -12,6 +12,7 @@ After installing necessary packets, **pipo** can be built.
 
     cd pipo
     mkdir build
+    cd build
     qmake ../pipo.pro
     make
 
